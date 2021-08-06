@@ -1,2 +1,2 @@
 # QGplasticity_S_purpuratus
-Data and code supporting the paper on Strongylocentrotus purpuratus quantitative genetics of plasticity
+Data and code supporting the paper by Strader et al. on _Strongylocentrotus purpuratus_ quantitative genetics of plasticity
