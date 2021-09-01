@@ -4,6 +4,11 @@
 
 # Load a few packages that will be used below:
 library(MCMCglmm)
+library(lmerTest) #library(lme4)
+library(Rmisc)
+library(ggplot2)
+library(gridExtra)
+
 # use `remotes` package to install `wolakR` for posterior summary functions:
 ## remotes::intall_github("matthewwolak/wolakR")
 library(wolakR)
@@ -14,23 +19,38 @@ parN <- read.table("data_parN.txt", header = TRUE)
 parU <- read.table("data_parU.txt", header = TRUE)
 
   # Set factors
-  parN$treat_dev <- as.factor(parN$treat_dev)
-  parN$animal <- as.factor(parN$animal)
-  parN$tubeFac <- as.factor(parN$tubeFac)
-  parN$Dam <- as.factor(parN$Dam)
-  parN$Sire <- as.factor(parN$Sire)
-  parN$cross <- as.factor(parN$cross)
+  parN <- within(parN, {
+    treat_dev <- as.factor(treat_dev)
+    animal <- as.factor(animal)
+    tubeFac <- as.factor(tubeFac)
+    Dam <- as.factor(Dam)
+    Sire <- as.factor(Sire)
+    cross <- as.factor(cross)
+  })
 
-  parU$treat_dev <- as.factor(parU$treat_dev)
-  parU$animal <- as.factor(parU$animal)
-  parU$tubeFac <- as.factor(parU$tubeFac)
-  parU$Dam <- as.factor(parU$Dam)
-  parU$Sire <- as.factor(parU$Sire)
-  parU$cross <- as.factor(parU$cross)
+  parU <- within(parU, {
+    treat_dev <- as.factor(treat_dev)
+    animal <- as.factor(animal)
+    tubeFac <- as.factor(tubeFac)
+    Dam <- as.factor(Dam)
+    Sire <- as.factor(Sire)
+    cross <- as.factor(cross)
+  })
 
 # Percent abnormalities
 percAb_parN <- read.table("percAb_parN.txt", header = TRUE)
 percAb_parU <- read.table("percAb_parU.txt", header = TRUE)
+
+# Egg diameter data
+eggs <- read.table("data_eggs.txt", header = TRUE)
+
+  # Set factors
+  eggs <- within(eggs, {
+    treat_adult <- as.factor(treat_adult)
+    tube <- as.factor(tube)
+  })
+  
+
 
 
 # Load the models
@@ -72,6 +92,59 @@ clPurp <- clP16[c(1:6, 15:16)]
 # 				RESULTS	
 
 ################################################################################
+
+##########################################
+#####   Eggs Diameter               ######
+##########################################
+# Egg diameter
+glm_egg <- lmer(Average ~ treat_adult + (1 | tube), data = eggs)
+anova(glm_egg)
+
+
+# Egg size predictor of body size
+eggsSumm <- summarySE(eggs, measurevar = "Average", groupvars = c("tube"),
+  na.rm = TRUE) 
+  eggsSumm$Dam <- eggsSumm$tube
+  eggsSumm$Dam <- sub("^", "dam_", eggsSumm$Dam ) #specifies dam for each number
+
+
+PspiSumm <- summarySE(rbind(cbind(parN, treat_adult = "N"),
+                            cbind(parU, treat_adult = "U")),
+  measurevar = "Length.spi",
+  groupvars = c("treat_adult", "treat_dev", "Dam"),
+  na.rm = TRUE)
+
+PbodSumm=summarySE(rbind(cbind(parN, treat_adult = "N"),
+                            cbind(parU, treat_adult = "U")),
+  measurevar = "Length.bod",
+  groupvars = c("treat_adult", "treat_dev", "Dam"),
+  na.rm = TRUE)
+
+summPspi <- merge(PspiSumm, eggsSumm, by = "Dam")
+summPspi$treat <- paste0(summPspi$treat_adult, summPspi$treat_dev)
+
+summPbod <- merge(PbodSumm, eggsSumm, by = "Dam")
+summPbod$treat <- paste0(summPbod$treat_adult, summPbod$treat_dev)
+
+
+eggspicule_lm <- lm(Length.spi ~ Average, data = summPspi)
+summary(eggspicule_lm)
+
+eggbod_lm <- lm(Length.bod ~ Average, data = summPbod)
+summary(eggbod_lm)
+
+
+
+
+
+
+
+
+
+
+##########################################
+##### Quantitative Genetic Models   ######
+##########################################
 
 # Tables summarizing posterior distributions of parental treatment fixed effects
 ##XXX Note, models setup WITHOUT an intercept
@@ -1156,6 +1229,67 @@ dev.off()
 ################################################################################
 
 
+############################################
+#  Figure S1: Egg diameter
+############################################
+
+
+tiff("FigESM1.tiff", width = 9, height = 4, units = "in",
+  res = 500, compression = "jpeg")          
+
+EggPlot <- ggplot(eggs, aes(treat_adult, Average, color = treat_adult)) +
+	labs(y = "Egg Diameter (mm)",x = "Parental Treatment") +
+	scale_color_manual(values = c("N" = NNcl, "U" = UUcl)) +
+	scale_fill_manual(values=c("N" = NNcl, "U" = UUcl)) +
+	geom_boxplot() + 
+	geom_point() +
+	theme_bw() +
+	theme(legend.position = "none")
+
+SpiPlot <- ggplot(data = summPspi,
+	aes(x = Average,y = Length.spi, color = treat, fill = treat)) +
+	#geom_smooth(method = "lm", se=FALSE, color="black", formula=y~x)+
+	geom_errorbar(aes(ymin = Length.spi - se.x, ymax = Length.spi + se.x)) +
+	geom_errorbarh(aes(xmin = Average - se.y, xmax = Average + se.y))+
+	labs(y = "Prism Spicule Length (mm)", x = "Egg Diameter (mm)") +
+	scale_color_manual(values = c("NN" = NNcl, "NU" = NUcl,
+	                              "UN" = UNcl,"UU" = UUcl)) +
+	scale_fill_manual(values = c("NN" = NNcl, "NU" = NUcl,
+	                             "UN" = UNcl,"UU" = UUcl)) +
+	geom_point() + theme_bw() + theme(legend.position = "none")
+
+BodPlot <- ggplot(data = summPbod,
+	aes(x = Average, y = Length.bod, color = treat, fill = treat)) +
+	#geom_smooth(method = "lm", se=FALSE, color="black", formula=y~x)+
+	geom_errorbar(aes(ymin = Length.bod - se.x, ymax = Length.bod + se.x)) +
+	geom_errorbarh(aes(xmin = Average - se.y, xmax = Average + se.y)) +
+	labs(y = "Prism Body Length (mm)", x = "Egg Diameter (mm)") +
+	scale_color_manual(values = c("NN" = NNcl, "NU" = NUcl,
+	                              "UN" = UNcl,"UU" = UUcl)) +
+	scale_fill_manual(values = c("NN" = NNcl, "NU" = NUcl,
+	                             "UN" = UNcl,"UU" = UUcl)) +
+	geom_point() + theme_bw() + theme(legend.position = "none")
+
+grid.arrange(EggPlot, SpiPlot, BodPlot, nrow = 1)
+
+
+
+
+
+dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ############################################
 
@@ -1618,13 +1752,3 @@ mtext(text = "Parent Non-Upwelling",
 #dev.copy(pdf, "FigESM5.pdf", w = 5, h = 10)
 #dev.off()
 dev.off()
-
-
-
-
-
-
-
-
-
-
