@@ -17,11 +17,12 @@ Column headings for the datasets reflect variables defined and discussed in the 
   - `treat_dev`: Either non-upwelling (N) or upwelling (U) environmental conditions in which each larvae was reared.
   - `measurer.spi` and `measurer.bod`: identity of the individual conducting the measurement, coded as -0.5 or 0.5. Two people total made all of the measurements.
   - `animal`: unique code for each individual that was measured.
-  - `tubeFac`: factor indicating the culture tube in which an individual larvae was reared.
+  - `tubeFac` (sometimes just `tube`): factor indicating the culture tube in which an individual larvae was reared.
   - `Dam` and `Sire`: each individual's maternal or paternal identity.
   - `cross`: unique factor indicating the cross between maternal egg and paternal sperm that created each individual.
   - `bucket`: factor indicating the rearing bucket in which all eggs from a given cross were reared.
-  - `PercAb`: percentage (0-1) of eggs assayed that were identified as displaying abnormal growth or development. 
+  - `PercAb`: percentage (0-1) of eggs assayed that were identified as displaying abnormal growth or development.
+  - `Average`: Average egg diameter for a dam. 
 
 ## Changes
 For ease of reference, an overview of significant changes to be noted below. Tag with commits or issues, where appropriate.
