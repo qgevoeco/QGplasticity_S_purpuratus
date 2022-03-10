@@ -10,7 +10,7 @@ library(ggplot2)
 library(gridExtra)
 
 # use `remotes` package to install `wolakR` for posterior summary functions:
-## remotes::intall_github("matthewwolak/wolakR")
+## remotes::install_github("matthewwolak/wolakR")
 library(wolakR)
 library(wesanderson)  #<-- contains color palette to use
 
@@ -55,21 +55,22 @@ eggs <- read.table("data_eggs.txt", header = TRUE)
 
 # Load the models
 ## See file "analyses_QGplasticity_S_purpuratus.R" for code to generate models
+## Assumes models are in the directory that contains this GitHub repository
 
 ### Spicule Length ######################
-load(file = "spiMod_parN_nit2200k.rdata")
+load(file = "../spiMod_parN_nit2200k.rdata")
   # replace 1 copy of covariance with the correlation
   spiMod_parN$VCV[, 2] <- posterior.cor(spiMod_parN$VCV[, 1:4])[, 2]
-load(file = "spiMod_parU_nit2200k.rdata")
+load(file = "../spiMod_parU_nit2200k.rdata")
   # replace 1 copy of covariance with the correlation
   spiMod_parU$VCV[, 2] <- posterior.cor(spiMod_parU$VCV[, 1:4])[, 2]
 
 
 ### Body Length #########################
-load(file = paste0("bodMod_parN_nit2130k.rdata"))
+load(file = paste0("../bodMod_parN_nit2130k.rdata"))
   # replace 1 copy of covariance with the correlation
   bodMod_parN$VCV[, 2] <- posterior.cor(bodMod_parN$VCV[, 1:4])[, 2]
-load(file = paste0("bodMod_parU_nit2130k.rdata"))
+load(file = paste0("../bodMod_parU_nit2130k.rdata"))
   # replace 1 copy of covariance with the correlation
   bodMod_parU$VCV[, 2] <- posterior.cor(bodMod_parU$VCV[, 1:4])[, 2]
 
