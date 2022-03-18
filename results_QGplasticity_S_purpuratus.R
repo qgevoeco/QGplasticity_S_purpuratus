@@ -1207,8 +1207,8 @@ dev.off()
 tiff("FigESM1.tiff", width = 9, height = 4, units = "in",
   res = 500, compression = "jpeg")          
 
-EggPlot <- ggplot(eggs, aes(treat_adult, Average, color = treat_adult)) +
-	labs(y = "Egg Diameter (mm)",x = "Parental Treatment") +
+EggPlot <- ggplot(eggs, aes(treat_adult, 1000*Average, color = treat_adult)) +
+	labs(y = Egg~Diameter~(mu*m), x = "Parental Treatment") +
 	scale_color_manual(values = c("N" = NNcl, "U" = UUcl)) +
 	scale_fill_manual(values=c("N" = NNcl, "U" = UUcl)) +
 	geom_boxplot() + 
@@ -1217,11 +1217,14 @@ EggPlot <- ggplot(eggs, aes(treat_adult, Average, color = treat_adult)) +
 	theme(legend.position = "none")
 
 SpiPlot <- ggplot(data = summPspi,
-	aes(x = Average,y = Length.spi, color = treat, fill = treat)) +
+	aes(x = 1000*Average, y = 1000*Length.spi,
+	  color = treat, fill = treat)) +
 	#geom_smooth(method = "lm", se=FALSE, color="black", formula=y~x)+
-	geom_errorbar(aes(ymin = Length.spi - se.x, ymax = Length.spi + se.x)) +
-	geom_errorbarh(aes(xmin = Average - se.y, xmax = Average + se.y))+
-	labs(y = "Prism Spicule Length (mm)", x = "Egg Diameter (mm)") +
+	geom_errorbar(aes(ymin = 1000*(Length.spi - se.x),
+	  ymax = 1000*(Length.spi + se.x))) +
+	geom_errorbarh(aes(xmin = 1000*(Average - se.y),
+	  xmax = 1000*(Average + se.y))) +
+	labs(y = Prism~Spicule~Length~(mu*m), x = Egg~Diameter~(mu*m)) +
 	scale_color_manual(values = c("NN" = NNcl, "NU" = NUcl,
 	                              "UN" = UNcl,"UU" = UUcl)) +
 	scale_fill_manual(values = c("NN" = NNcl, "NU" = NUcl,
@@ -1229,11 +1232,14 @@ SpiPlot <- ggplot(data = summPspi,
 	geom_point() + theme_bw() + theme(legend.position = "none")
 
 BodPlot <- ggplot(data = summPbod,
-	aes(x = Average, y = Length.bod, color = treat, fill = treat)) +
+	aes(x = 1000*Average, y = 1000*Length.bod,
+	  color = treat, fill = treat)) +
 	#geom_smooth(method = "lm", se=FALSE, color="black", formula=y~x)+
-	geom_errorbar(aes(ymin = Length.bod - se.x, ymax = Length.bod + se.x)) +
-	geom_errorbarh(aes(xmin = Average - se.y, xmax = Average + se.y)) +
-	labs(y = "Prism Body Length (mm)", x = "Egg Diameter (mm)") +
+	geom_errorbar(aes(ymin = 1000*(Length.bod - se.x),
+	  ymax = 1000*(Length.bod + se.x))) +
+	geom_errorbarh(aes(xmin = 1000*(Average - se.y),
+	  xmax = 1000*(Average + se.y))) +
+	labs(y = Prism~Body~Length~(mu*m), x = Egg~Diameter~(mu*m)) +
 	scale_color_manual(values = c("NN" = NNcl, "NU" = NUcl,
 	                              "UN" = UNcl,"UU" = UUcl)) +
 	scale_fill_manual(values = c("NN" = NNcl, "NU" = NUcl,
