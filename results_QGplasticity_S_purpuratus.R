@@ -1256,7 +1256,7 @@ dev.off()
 
 
 ############################################
-#  Figure S2: Percent Abnormality
+#  Figure S2: Proportion Abnormality
 ############################################
 # Model treatment mean reaction norms
 
@@ -1273,7 +1273,7 @@ xaxs <- c(0.9,1.1, 2.9,3.1)
 plot(x = rep(xaxs, 2), y = apply(tmpPercAbLst, MARGIN = 2, FUN = range),
   axes = FALSE, type = "n",
   xlim = c(0.5, 3.5), ylim = c(0.12, 0.28),
-  xlab = "Larval Environment", ylab = "Percent Abnormality")
+  xlab = "Larval Environment", ylab = "Proportion Abnormal")
  tmpPercAbMean <- apply(tmpPercAbLst, MARGIN = 2, FUN = mean, na.rm = TRUE)
  tmpPercAbSD <- apply(tmpPercAbLst, MARGIN = 2, FUN = sd, na.rm = TRUE)
  tmpPercAbSE <- tmpPercAbSD / sqrt(apply(tmpPercAbLst, MARGIN = 2, FUN = length))
@@ -1292,7 +1292,7 @@ plot(x = rep(xaxs, 2), y = apply(tmpPercAbLst, MARGIN = 2, FUN = range),
 #    pch = 8, col = c(NNcl, UNcl, NUcl, UUcl), cex = 2)
    
 axis(1, at = c(1,3), labels = c("Non-Upwelling", "Upwelling"))
-axis(2, at = seq(0.12, 0.28, 0.04), labels = seq(12, 28, 4))
+axis(2, at = seq(0.12, 0.28, 0.04), labels = seq(0.12, 0.28, 0.04))
   
 #mtext(text = expression((bolditalic(c))),
 #  side = 3, line = -0.4, adj = -0.2, cex = 1.3)
