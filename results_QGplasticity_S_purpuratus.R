@@ -82,10 +82,10 @@ clPurp <- clP16[c(1:6, 15:16)]
   class(clPurp) <- class(clP16)
   attr(clPurp, "name") <- "S. purpuratus"
 
-  NNcl <- clPurp[2]
-  NUcl <- clPurp[6]
-  UNcl <- clPurp[4]
-  UUcl <- clPurp[8]
+  NNcl <- clPurp[2]  #<-- "Pink"
+  NUcl <- clPurp[6]  #<-- "Light Blue"
+  UNcl <- clPurp[4]  #<-- "Lavender"
+  UUcl <- clPurp[8]  #<-- "Blue"
 
 
 ################################################################################
@@ -310,21 +310,23 @@ IaPrior <- as.mcmc(simPriors[, "VA1"] / (rnorm(nrow(simPriors), 0, sqrt(1e10))^2
 # Figure 2   
 
 ####################
-tiff("Fig2.tiff", width = 12, height = 5, units = "in",
+tiff("../Fig2.tiff", width = 8, height = 5, units = "in",
   res = 500, compression = "jpeg")          
 
 ## Model Treatment Mean Reaction Norms
-par(mfrow = c(1, 3), mar = c(5, 5, 2, 0.5), cex.lab = 1.5, cex.axis = 1.25)
+par(mfrow = c(1, 2), mar = c(5, 5, 2, 0.5), cex.lab = 1.5, cex.axis = 1.25)
 # SPICULE LENGTH
-tmpSpiModLst <- as.mcmc(cbind(NN = spiMod_parN$Sol[, "treat_devN"],
+## Note multiplying all by 10 to convert to micrometers
+### (millimeter scale of response already multiplied by 100)
+tmpSpiModLst <- as.mcmc(10 * cbind(NN = spiMod_parN$Sol[, "treat_devN"],
       UN = spiMod_parU$Sol[, "treat_devN"],
       NU = spiMod_parN$Sol[, "treat_devU"],
       UU = spiMod_parU$Sol[, "treat_devU"]))
 xaxs <- c(0.9,1.1, 2.9,3.1)
 plot(x = rep(xaxs, 2), y = apply(tmpSpiModLst, MARGIN = 2, FUN = range),
   axes = FALSE, type = "n",
-  xlim = c(0.5, 3.5), ylim = c(8, 13.25),
-  xlab = "", ylab = "Spicule Length (mm) x 100")
+  xlim = c(0.5, 3.5), ylim = c(80, 132.5),
+  xlab = "Larval Environment", ylab = ~Spicule~Length~(mu*m))
  tmpSpiModMean <- apply(tmpSpiModLst, MARGIN = 2, FUN = mean, na.rm = TRUE)
  tmpSpiModCI <- HPDinterval(tmpSpiModLst)
  # lines/reaction norms
@@ -333,31 +335,33 @@ plot(x = rep(xaxs, 2), y = apply(tmpSpiModLst, MARGIN = 2, FUN = range),
  # CIs
  arrows(x0 = xaxs,
    y0 = tmpSpiModCI[, "lower"], y1 = tmpSpiModCI[, "upper"],
-   length = 0.1, angle = 90, code = 3, col = c(NNcl, UNcl, NUcl, UUcl), lwd = 3)   
+   length = 0.075, angle = 90, code = 3, col = c(NNcl, UNcl, NUcl, UUcl), lwd = 3)   
  # means
  points(x = xaxs, y = tmpSpiModMean,
-   pch = c(21, 22, 21, 22), bg = c(NNcl, UNcl, NUcl, UUcl), cex = 2, lwd = 2)
+   pch = c(21, 24, 21, 24), bg = c(NNcl, UNcl, NUcl, UUcl), cex = 2.2, lwd = 2)
  # modes
 # points(x = xaxs, y = posterior.mode(tmpSpiModLst),
 #   pch = 8, col = c(NNcl, UNcl, NUcl, UUcl), cex = 2)
    
 axis(1, at = c(1,3), labels = c("Non-Upwelling", "Upwelling"))
-axis(2, at = seq(8, 13, 1))
+axis(2, at = seq(80, 130, 10))
 
 mtext(text = expression((bolditalic(a))),
-  side = 3, line = -0.4, adj = -0.2, cex = 1.3)
+  side = 3, line = -0.4, adj = -0.3, cex = 1.3)
 
 
 # BODY LENGTH
-tmpBodModLst <- as.mcmc(cbind(NN = bodMod_parN$Sol[, "treat_devN"],
+## Note multiplying all by 10 to convert to micrometers
+### (millimeter scale of response already multiplied by 100)
+tmpBodModLst <- as.mcmc(10 * cbind(NN = bodMod_parN$Sol[, "treat_devN"],
       UN = bodMod_parU$Sol[, "treat_devN"],
       NU = bodMod_parN$Sol[, "treat_devU"],
       UU = bodMod_parU$Sol[, "treat_devU"]))
 xaxs <- c(0.9,1.1, 2.9,3.1)
 plot(x = rep(xaxs, 2), y = apply(tmpBodModLst, MARGIN = 2, FUN = range),
   axes = FALSE, type = "n",
-  xlim = c(0.5, 3.5), ylim = c(12.5, 15.75),
-  xlab = "Larval Environment", ylab = "Body Length (mm) x 100")
+  xlim = c(0.5, 3.5), ylim = c(125, 157.5),
+  xlab = "Larval Environment", ylab = ~Body~Length~(mu*m))
  tmpBodModMean <- apply(tmpBodModLst, MARGIN = 2, FUN = mean, na.rm = TRUE)
  tmpBodModCI <- HPDinterval(tmpBodModLst)
  # lines/reaction norms
@@ -366,55 +370,20 @@ plot(x = rep(xaxs, 2), y = apply(tmpBodModLst, MARGIN = 2, FUN = range),
  # Std. Dev.
  arrows(x0 = xaxs,
    y0 = tmpBodModCI[, "lower"], y1 = tmpBodModCI[, "upper"],
-   length = 0.1, angle = 90, code = 3, col = c(NNcl, UNcl, NUcl, UUcl), lwd = 3)   
+   length = 0.075, angle = 90, code = 3, col = c(NNcl, UNcl, NUcl, UUcl), lwd = 3)   
  # means
  points(x = xaxs, y = tmpBodModMean,
-   pch = c(21, 22, 21, 22), bg = c(NNcl, UNcl, NUcl, UUcl), cex = 2, lwd = 2)
+   pch = c(21, 24, 21, 24), bg = c(NNcl, UNcl, NUcl, UUcl), cex = 2.2, lwd = 2)
  # modes
 # points(x = xaxs, y = posterior.mode(tmpBodModLst),
 #    pch = 8, col = c(NNcl, UNcl, NUcl, UUcl), cex = 2)
    
 axis(1, at = c(1,3), labels = c("Non-Upwelling", "Upwelling"))
-axis(2, at = seq(12.5, 15.5, 0.5))
+axis(2, at = seq(125, 155, 5))
   
 mtext(text = expression((bolditalic(b))),
-  side = 3, line = -0.4, adj = -0.2, cex = 1.3)
+  side = 3, line = -0.4, adj = -0.3, cex = 1.3)
   
-
-
-
-# PERCENT ABNORMALITY
-tmpPercAbLst <- cbind(NN = percAb_parN$PercAb[which(percAb_parN$treat_dev == "N")],
-      UN = percAb_parU$PercAb[which(percAb_parN$treat_dev == "N")],
-      NU = percAb_parN$PercAb[which(percAb_parN$treat_dev == "U")],
-      UU = percAb_parU$PercAb[which(percAb_parN$treat_dev == "U")])
-xaxs <- c(0.9,1.1, 2.9,3.1)
-plot(x = rep(xaxs, 2), y = apply(tmpPercAbLst, MARGIN = 2, FUN = range),
-  axes = FALSE, type = "n",
-  xlim = c(0.5, 3.5), ylim = c(0.12, 0.28),
-  xlab = "", ylab = "Percent Abnormality")
- tmpPercAbMean <- apply(tmpPercAbLst, MARGIN = 2, FUN = mean, na.rm = TRUE)
- tmpPercAbSD <- apply(tmpPercAbLst, MARGIN = 2, FUN = sd, na.rm = TRUE)
- tmpPercAbSE <- tmpPercAbSD / sqrt(apply(tmpPercAbLst, MARGIN = 2, FUN = length))
- # lines/reaction norms
- lines(x = c(0.9, 2.9), y = tmpPercAbMean[c(1,3)], lwd = 3)
- lines(x = c(1.1, 3.1), y = tmpPercAbMean[c(2,4)], lwd = 3)
- # Std. Dev.
- arrows(x0 = xaxs,
-   y0 = tmpPercAbMean - 1*tmpPercAbSE, y1 = tmpPercAbMean + 1*tmpPercAbSE,
-   length = 0.1, angle = 90, code = 3, col = c(NNcl, UNcl, NUcl, UUcl), lwd = 3)   
- # means
- points(x = xaxs, y = tmpPercAbMean,
-   pch = c(21, 22, 21, 22), bg = c(NNcl, UNcl, NUcl, UUcl), cex = 2, lwd = 2)
- # modes
-# points(x = xaxs, y = posterior.mode(tmpBodModLst),
-#    pch = 8, col = c(NNcl, UNcl, NUcl, UUcl), cex = 2)
-   
-axis(1, at = c(1,3), labels = c("Non-Upwelling", "Upwelling"))
-axis(2, at = seq(0.12, 0.28, 0.04), labels = seq(12, 28, 4))
-  
-mtext(text = expression((bolditalic(c))),
-  side = 3, line = -0.4, adj = -0.2, cex = 1.3)
 
 
 
@@ -1286,7 +1255,49 @@ dev.off()
 
 
 
+############################################
+#  Figure S2: Percent Abnormality
+############################################
+# Model treatment mean reaction norms
 
+tiff("../FigESM2.tiff", width = 4, height = 5, units = "in",
+  res = 500, compression = "jpeg")          
+
+par(mar = c(5, 5, 2, 0.5), cex.lab = 1.5, cex.axis = 1.25)
+
+tmpPercAbLst <- cbind(NN = percAb_parN$PercAb[which(percAb_parN$treat_dev == "N")],
+      UN = percAb_parU$PercAb[which(percAb_parN$treat_dev == "N")],
+      NU = percAb_parN$PercAb[which(percAb_parN$treat_dev == "U")],
+      UU = percAb_parU$PercAb[which(percAb_parN$treat_dev == "U")])
+xaxs <- c(0.9,1.1, 2.9,3.1)
+plot(x = rep(xaxs, 2), y = apply(tmpPercAbLst, MARGIN = 2, FUN = range),
+  axes = FALSE, type = "n",
+  xlim = c(0.5, 3.5), ylim = c(0.12, 0.28),
+  xlab = "Larval Environment", ylab = "Percent Abnormality")
+ tmpPercAbMean <- apply(tmpPercAbLst, MARGIN = 2, FUN = mean, na.rm = TRUE)
+ tmpPercAbSD <- apply(tmpPercAbLst, MARGIN = 2, FUN = sd, na.rm = TRUE)
+ tmpPercAbSE <- tmpPercAbSD / sqrt(apply(tmpPercAbLst, MARGIN = 2, FUN = length))
+ # lines/reaction norms
+ lines(x = c(0.9, 2.9), y = tmpPercAbMean[c(1,3)], lwd = 3)
+ lines(x = c(1.1, 3.1), y = tmpPercAbMean[c(2,4)], lwd = 3)
+ # Std. Dev.
+ arrows(x0 = xaxs,
+   y0 = tmpPercAbMean - 1*tmpPercAbSE, y1 = tmpPercAbMean + 1*tmpPercAbSE,
+   length = 0.1, angle = 90, code = 3, col = c(NNcl, UNcl, NUcl, UUcl), lwd = 3)   
+ # means
+ points(x = xaxs, y = tmpPercAbMean,
+   pch = c(21, 24, 21, 24), bg = c(NNcl, UNcl, NUcl, UUcl), cex = 2, lwd = 2)
+ # modes
+# points(x = xaxs, y = posterior.mode(tmpBodModLst),
+#    pch = 8, col = c(NNcl, UNcl, NUcl, UUcl), cex = 2)
+   
+axis(1, at = c(1,3), labels = c("Non-Upwelling", "Upwelling"))
+axis(2, at = seq(0.12, 0.28, 0.04), labels = seq(12, 28, 4))
+  
+#mtext(text = expression((bolditalic(c))),
+#  side = 3, line = -0.4, adj = -0.2, cex = 1.3)
+
+dev.off()
 
 
 
