@@ -217,6 +217,46 @@ bodIa <- as.mcmc({
 
 
 
+#################################
+# Parameter Estimate Differences
+#################################
+
+# Spicule length
+spiNUminNN_VAdiff <- spiMod_parN$VCV[, "treat_devU:treat_devU.animal"] -
+  spiMod_parN$VCV[, "treat_devN:treat_devN.animal"]
+spiUUminUN_VAdiff <- spiMod_parU$VCV[, "treat_devU:treat_devU.animal"] -
+  spiMod_parU$VCV[, "treat_devN:treat_devN.animal"]
+
+  postTable(spiNUminNN_VAdiff)
+    mean(spiNUminNN_VAdiff > 0.1)
+  postTable(spiUUminUN_VAdiff)
+    mean(spiUUminUN_VAdiff > 0.1)
+
+
+spiNUminNN_Iadiff <- spiIa[, "spiParNdevU_Ia"] - spiIa[, "spiParNdevN_Ia"]
+spiUUminUN_Iadiff <- spiIa[, "spiParUdevU_Ia"] - spiIa[, "spiParUdevN_Ia"]
+  postTable(spiNUminNN_Iadiff)
+    mean(spiNUminNN_Iadiff > 0.0025) 
+  postTable(spiUUminUN_Iadiff)
+    mean(spiUUminUN_Iadiff > 0.0025) 
+
+
+spiNUminUU_Iadiff <- spiIa[, "spiParNdevU_Ia"] - spiIa[, "spiParUdevU_Ia"]
+  postTable(spiNUminUU_Iadiff)
+    mean(spiNUminUU_Iadiff > 0.0025) 
+
+
+##############################################
+# Body size differences 
+## in cross-environment genetic correlation
+##############################################
+
+# How much of posterior density is negative in Non-Upwelling
+mean(bodMod_parN$VCV[, 2] < 0)
+
+# How much of posterior density is positive in Upwelling 
+mean(bodMod_parU$VCV[, 2] > 0)
+
 
 
 
