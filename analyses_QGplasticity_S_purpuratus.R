@@ -64,7 +64,7 @@ spiMod_parN <- MCMCglmm(scLength.spi ~ 0 + treat_dev + measurer.spi,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
 save("spiMod_parN",
-  file = paste0("spiMod_parN_nit", NITT/1000, "k.rdata"))
+  file = paste0("../spiMod_parN_nit", NITT/1000, "k.rdata"))
 
 spiMod_parU <- MCMCglmm(scLength.spi ~ 0 + treat_dev + measurer.spi,
 	random = ~ us(treat_dev):animal + cultureFac + Dam + Sire + blockFac,
@@ -75,7 +75,7 @@ spiMod_parU <- MCMCglmm(scLength.spi ~ 0 + treat_dev + measurer.spi,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
 save("spiMod_parU",
-  file = paste0("spiMod_parU_nit", NITT/1000, "k.rdata"))
+  file = paste0("../spiMod_parU_nit", NITT/1000, "k.rdata"))
 
 
 ##############################
@@ -94,7 +94,7 @@ bodMod_parN <- MCMCglmm(scLength.bod ~ 0 + treat_dev + measurer.bod,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
 save("bodMod_parN",
-  file = paste0("bodMod_parN_nit", NITT/1000, "k.rdata"))
+  file = paste0("../bodMod_parN_nit", NITT/1000, "k.rdata"))
 
 
 bodMod_parU <- MCMCglmm(scLength.bod ~ 0 + treat_dev + measurer.bod,
@@ -106,7 +106,7 @@ bodMod_parU <- MCMCglmm(scLength.bod ~ 0 + treat_dev + measurer.bod,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
 save("bodMod_parU",
-  file = paste0("bodMod_parU_nit", NITT/1000, "k.rdata"))
+  file = paste0("../bodMod_parU_nit", NITT/1000, "k.rdata"))
 
 
 
