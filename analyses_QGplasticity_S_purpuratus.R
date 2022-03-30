@@ -12,14 +12,16 @@ parU <- read.table("data_parU.txt", header = TRUE)
 # Set factors
 parN$treat_dev <- as.factor(parN$treat_dev)
 parN$animal <- as.factor(parN$animal)
-parN$tubeFac <- as.factor(parN$tubeFac)
+parN$cultureFac <- as.factor(parN$cultureFac)
+parN$blockFac <- as.factor(parN$blockFac)
 parN$Dam <- as.factor(parN$Dam)
 parN$Sire <- as.factor(parN$Sire)
 parN$cross <- as.factor(parN$cross)
 
 parU$treat_dev <- as.factor(parU$treat_dev)
 parU$animal <- as.factor(parU$animal)
-parU$tubeFac <- as.factor(parU$tubeFac)
+parU$cultureFac <- as.factor(parU$cultureFac)
+parU$blockFac <- as.factor(parU$blockFac)
 parU$Dam <- as.factor(parU$Dam)
 parU$Sire <- as.factor(parU$Sire)
 parU$cross <- as.factor(parU$cross)
@@ -38,11 +40,12 @@ Ainv_parU <- inverseA(ped_parU)$Ainv
 # 		MODELS
 ################################################################################
 # Setup prior
-quadPE4 <- list(R = list(V = diag(2), nu = 2), 
+quadPE5 <- list(R = list(V = diag(2), nu = 2), 
   G = list(G1 = list(V = diag(2)*0.02, nu = 3, alpha.mu = rep(0, 2), alpha.V = diag(2)*1000),
     G2 = list(V = diag(1), nu = 1, alpha.mu = rep(0, 1), alpha.V = diag(1)*1000),
     G3 = list(V = diag(1), nu = 1, alpha.mu = rep(0, 1), alpha.V = diag(1)*1000),
-    G4 = list(V = diag(1), nu = 1, alpha.mu = rep(0, 1), alpha.V = diag(1)*1000)))
+    G4 = list(V = diag(1), nu = 1, alpha.mu = rep(0, 1), alpha.V = diag(1)*1000),
+    G5 = list(V = diag(1), nu = 1, alpha.mu = rep(0, 1), alpha.V = diag(1)*1000)))
 
 
 ##############################
@@ -53,10 +56,10 @@ THIN <- 1000; BURN <- 200000;
  (NITT <- BURN + nsample*THIN)
 
 spiMod_parN <- MCMCglmm(scLength.spi ~ 0 + treat_dev + measurer.spi,
-	random = ~ us(treat_dev):animal + tubeFac + Dam + Sire,
+	random = ~ us(treat_dev):animal + cultureFac + Dam + Sire + blockFac,
 	rcov = ~ idh(treat_dev):units, 
         ginverse = list(animal = Ainv_parN),
-	prior = quadPE4,
+	prior = quadPE5,
 	data = parN,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
@@ -64,10 +67,10 @@ save("spiMod_parN",
   file = paste0("spiMod_parN_nit", NITT/1000, "k.rdata"))
 
 spiMod_parU <- MCMCglmm(scLength.spi ~ 0 + treat_dev + measurer.spi,
-	random = ~ us(treat_dev):animal + tubeFac + Dam + Sire,
+	random = ~ us(treat_dev):animal + cultureFac + Dam + Sire + blockFac,
 	rcov = ~ idh(treat_dev):units, 
        ginverse = list(animal = Ainv_parU),
-	prior = quadPE4,
+	prior = quadPE5,
 	data = parU,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
@@ -83,10 +86,10 @@ THIN <- 1000; BURN <- 130000;
  (NITT <- BURN + nsample*THIN)
 
 bodMod_parN <- MCMCglmm(scLength.bod ~ 0 + treat_dev + measurer.bod,
-	random = ~ us(treat_dev):animal + tubeFac + Dam + Sire,
+	random = ~ us(treat_dev):animal + cultureFac + Dam + Sire + blockFac,
 	rcov = ~ idh(treat_dev):units, 
         ginverse = list(animal = Ainv_parN),
-	prior = quadPE4,
+	prior = quadPE5,
 	data = parN,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
@@ -95,10 +98,10 @@ save("bodMod_parN",
 
 
 bodMod_parU <- MCMCglmm(scLength.bod ~ 0 + treat_dev + measurer.bod,
-	random = ~ us(treat_dev):animal + tubeFac + Dam + Sire,
+	random = ~ us(treat_dev):animal + cultureFac + Dam + Sire + blockFac,
 	rcov = ~ idh(treat_dev):units, 
         ginverse = list(animal = Ainv_parU),
-	prior = quadPE4,
+	prior = quadPE5,
 	data = parU,
 	nitt = NITT, burnin = BURN, thin = THIN,
 	pr = TRUE)
