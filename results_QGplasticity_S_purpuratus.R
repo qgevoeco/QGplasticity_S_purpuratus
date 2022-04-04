@@ -1253,7 +1253,7 @@ dev.off()
 ############################################
 
 
-tiff("FigESM1.tiff", width = 9, height = 4, units = "in",
+tiff("../FigESM3_S1.tiff", width = 9, height = 4, units = "in",
   res = 500, compression = "jpeg")          
 
 EggPlot <- ggplot(eggs, aes(treat_adult, 1000*Average, color = treat_adult)) +
@@ -1315,7 +1315,7 @@ dev.off()
 ############################################
 # Model treatment mean reaction norms
 
-tiff("../FigESM2.tiff", width = 4, height = 5, units = "in",
+tiff("../FigESM3_S2.tiff", width = 4, height = 5, units = "in",
   res = 500, compression = "jpeg")          
 
 par(mar = c(5, 5, 2, 0.5), cex.lab = 1.5, cex.axis = 1.25)
@@ -1469,7 +1469,7 @@ mtext(text = "Sire variance",
  ################### 
  # Parent N  #####
   NVc <- postPlot(tmpModN$VCV[, 5], plotHist = TRUE,
-	xlim = c(0, 0.25), ylim = c(0, 21),
+	xlim = c(0, 0.24), ylim = c(0, 21),
 	main = "",
 	xlab = "", ylab = "")
 	# estimate prior densities at posterior histogram midpoints
@@ -1487,7 +1487,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  ################### 
  # Parent U  #####
   UVc <- postPlot(tmpModU$VCV[, 5], plotHist = TRUE,
-	xlim = c(0, 0.25), ylim = c(0, 21),
+	xlim = c(0, 0.24), ylim = c(0, 21),
 	main = "",
 	xlab = expression(V[ Culture ]), ylab = "")
 	# estimate prior densities at posterior histogram midpoints
@@ -1528,7 +1528,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  ################### 
  # Parent U  #####
   UVb <- postPlot(tmpModU$VCV[, "blockFac"], plotHist = TRUE, histbreaks = 200,
-	xlim = c(0, 4), ylim = c(0, 8),
+	xlim = c(0, 4), ylim = c(0, 4),
 	main = "",
 	xlab = expression(V[ Block ]), ylab = "")
 	# estimate prior densities at posterior histogram midpoints
@@ -1576,7 +1576,7 @@ lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
  ################### 
  # Parent N  #####
   NVr1 <- postPlot(tmpModN$VCV[, 9], plotHist = TRUE,
-	xlim = c(0, 1.5), ylim = c(0, 5),
+	xlim = c(0, 1.3), ylim = c(0, 5),
 	main = "",
 	xlab = "", ylab = "Density",
 	histcol = NNcl)
@@ -1584,7 +1584,7 @@ lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
   NVr2 <- postPlot(tmpModN$VCV[, 10], plotHist = TRUE,
-	xlim = c(0, 2), ylim = c(0, 5),
+	xlim = c(0, 2), ylim = c(0, 3),
 	main = "",
 	xlab = "", ylab = "Density",
 	histcol = NUcl)
@@ -1594,7 +1594,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  # Parent U  #####
 par(mgp = c(2.5, 1, 0))
   UVr1 <- postPlot(tmpModU$VCV[, 9], plotHist = TRUE,
-	xlim = c(0, 1.5), ylim = c(0, 5),
+	xlim = c(0, 1.3), ylim = c(0, 5),
 	main = "",
 	xlab = "", ylab = "Density",
 	histcol = UNcl)
@@ -1603,7 +1603,7 @@ par(mgp = c(2.5, 1, 0))
 
 par(mgp = c(2.5, 1, 0))
   UVr2 <- postPlot(tmpModU$VCV[, 10], plotHist = TRUE,
-	xlim = c(0, 2), ylim = c(0, 5),
+	xlim = c(0, 2), ylim = c(0, 3),
 	main = "",
 	xlab = expression(V[ Residual ]), ylab = "Density",
 	histcol = UUcl)
@@ -1840,7 +1840,7 @@ dev.off()
 ######################
 # Residual Variances
 ######################
-tiff("FigESM5.tiff", width = 5, height = 10, units = "in",
+tiff("../FigESM4_S6.tiff", width = 5, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(4, 1), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
@@ -1849,15 +1849,15 @@ lettLine <- 1.5  #<-- vertical line placement of panel letter
 lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
  ################### 
  # Parent N  #####
-  NVr1 <- postPlot(tmpModN$VCV[, 8], plotHist = TRUE,
-	xlim = c(0, 1), ylim = c(0, 10),
+  NVr1 <- postPlot(tmpModN$VCV[, 9], plotHist = TRUE,
+	xlim = c(0, 1.0), ylim = c(0, 10),
 	main = "",
 	xlab = "", ylab = "Density",
 	histcol = NNcl)
      mtext(text = expression((bolditalic(a))),
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
-  NVr2 <- postPlot(tmpModN$VCV[, 9], plotHist = TRUE,
+  NVr2 <- postPlot(tmpModN$VCV[, 10], plotHist = TRUE,
 	xlim = c(0, 0.8), ylim = c(0, 10),
 	main = "",
 	xlab = "", ylab = "Density",
@@ -1867,7 +1867,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  ################### 
  # Parent U  #####
 par(mgp = c(2.5, 1, 0))
-  UVr1 <- postPlot(tmpModU$VCV[, 8], plotHist = TRUE,
+  UVr1 <- postPlot(tmpModU$VCV[, 9], plotHist = TRUE,
 	xlim = c(0, 1), ylim = c(0, 10),
 	main = "",
 	xlab = "", ylab = "Density",
@@ -1876,8 +1876,8 @@ par(mgp = c(2.5, 1, 0))
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 
 par(mgp = c(2.5, 1, 0))
-  UVr2 <- postPlot(tmpModU$VCV[, 9], plotHist = TRUE,
-	xlim = c(0, 0.8), ylim = c(0, 10),
+  UVr2 <- postPlot(tmpModU$VCV[, 10], plotHist = TRUE,
+	xlim = c(0, 0.8), ylim = c(0, 12),
 	main = "",
 	xlab = expression(V[ Residual ]), ylab = "Density",
 	histcol = UUcl)
@@ -1894,6 +1894,6 @@ mtext(text = "Parent Non-Upwelling",
   mtext(text = "Larval Upwelling         Larval Non-Upwelling",
      outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
 
-#dev.copy(pdf, "FigESM5.pdf", w = 5, h = 10)
-#dev.off()
 dev.off()
+
+
