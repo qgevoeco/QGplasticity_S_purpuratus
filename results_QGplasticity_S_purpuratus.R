@@ -165,13 +165,13 @@ postTable(bodMod_parU$Sol[, 1:2])
 ## Calculate IAs and h2s
 spih2 <- as.mcmc({
       cbind(spiParNdevN_h2 = with(spiMod_parN,
-      		VCV[, 1] / rowSums(VCV[, c(1, 5:8)])),
+      		VCV[, 1] / rowSums(VCV[, c(1, 5:9)])),
             spiParNdevU_h2 = with(spiMod_parN,
-            	VCV[, 4] / rowSums(VCV[, c(4, 5:7, 9)])),
+            	VCV[, 4] / rowSums(VCV[, c(4, 5:8, 10)])),
 	    spiParUdevN_h2 = with(spiMod_parU,
-	    	VCV[, 1] / rowSums(VCV[, c(1, 5:8)])),
+	    	VCV[, 1] / rowSums(VCV[, c(1, 5:9)])),
 	    spiParUdevU_h2 = with(spiMod_parU,
-	    	VCV[, 4] / rowSums(VCV[, c(4, 5:7, 9)])))
+	    	VCV[, 4] / rowSums(VCV[, c(4, 5:8, 10)])))
 	})
 ## IAs use fixed effect treatment estimate as mean
 ### doing so marginalizes over other fixed effects (measurer)
@@ -194,13 +194,13 @@ spiIa <- as.mcmc({
 ## Calculate CVAs and h2s
 bodh2 <- as.mcmc({
       cbind(bodParNdevN_h2 = with(bodMod_parN,
-      		VCV[, 1] / rowSums(VCV[, c(1, 5:8)])),
+      		VCV[, 1] / rowSums(VCV[, c(1, 5:9)])),
             bodParNdevU_h2 = with(bodMod_parN,
-            	VCV[, 4] / rowSums(VCV[, c(4, 5:7, 9)])),
+            	VCV[, 4] / rowSums(VCV[, c(4, 5:8, 10)])),
 	    bodParUdevN_h2 = with(bodMod_parU,
-	    	VCV[, 1] / rowSums(VCV[, c(1, 5:8)])),
+	    	VCV[, 1] / rowSums(VCV[, c(1, 5:9)])),
 	    bodParUdevU_h2 = with(bodMod_parU,
-	    	VCV[, 4] / rowSums(VCV[, c(4, 5:7, 9)])))
+	    	VCV[, 4] / rowSums(VCV[, c(4, 5:8, 10)])))
 	})
 ## IAs use fixed effect treatment estimate as mean
 ### doing so marginalizes over other fixed effects (measurer)
@@ -312,7 +312,8 @@ simResidPrior <- rIW(V = diag(2), nu = 2, n = Nsim)
 simPriors <- as.mcmc({cbind(
   VA1 = simAddGenPrior[, 1], VA2 = simAddGenPrior[, 4],
   COVA12 = simAddGenPrior[, 2],
-  V1 = simUniPrior[, 1], V2 = simUniPrior[, 2], V3 = simUniPrior[, 3],
+  V1 = simUniPrior[, 1], V2 = simUniPrior[, 2],
+    V3 = simUniPrior[, 3], V4 = simUniPrior[, 4],
   VR1 = simResidPrior[, 1], VR2 = simResidPrior[, 4])
   })
 
@@ -320,7 +321,8 @@ simPriors <- as.mcmc({cbind(
       
 # Now create some combined statistic priors
 h2Prior <- as.mcmc({
-  simPriors[, "VA1"] / rowSums(simPriors[, c("VA1", "V1", "V2", "V3", "VR1")])
+  simPriors[, "VA1"] / rowSums(simPriors[, c("VA1",
+                                                "V1", "V2", "V3", "V4", "VR1")])
 })
 
 IaPrior <- as.mcmc(simPriors[, "VA1"] / (rnorm(nrow(simPriors), 0, sqrt(1e10))^2))
@@ -389,6 +391,11 @@ axis(2, at = seq(80, 130, 10))
 mtext(text = expression((bolditalic(a))),
   side = 3, line = -0.4, adj = -0.3, cex = 1.3)
 
+# Add Parent and Larvae Treatment letters/labels next to points
+text(x = xaxs + rep(c(-1, 1) * 0.275, 2), y = tmpSpiModMean,
+  labels = names(tmpSpiModMean))
+
+
 
 # BODY LENGTH
 ## Note multiplying all by 10 to convert to micrometers
@@ -424,7 +431,9 @@ axis(2, at = seq(125, 155, 5))
 mtext(text = expression((bolditalic(b))),
   side = 3, line = -0.4, adj = -0.3, cex = 1.3)
   
-
+# Add Parent and Larvae Treatment letters/labels next to points
+text(x = xaxs + rep(c(-1, 1) * 0.275, 2), y = tmpBodModMean,
+  labels = names(tmpBodModMean))
 
 
 dev.off()
@@ -451,7 +460,7 @@ tmph2 <- spih2
 tmpIa <- spiIa
 
 
-tiff("Fig3.tiff", width = 9, height = 10, units = "in",
+tiff("../Fig3.tiff", width = 9, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(4, 3), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
@@ -693,7 +702,7 @@ tmpModU <- bodMod_parU
 tmph2 <- bodh2
 tmpIa <- bodIa
 
-tiff("Fig4.tiff", width = 9, height = 10, units = "in",
+tiff("../Fig4.tiff", width = 9, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(4, 3), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
@@ -705,7 +714,7 @@ lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
 #################
 genXlim1in <- c(0, 1.4)
 genXlim2in <- c(0, 1.0)
-genYlim1in <- c(0, 4.5)
+genYlim1in <- c(0, 6.5)
 genYlim2in <- c(0, 20)
  ################### 
  # Parent N  #####
@@ -1032,7 +1041,7 @@ bodModU_FamMeanBV_devUmean_rank <- -1*rank(bodModU_FamMeanBV_devUmean)
 
 
 
-tiff("Fig5.tiff", width = 12, height = 7, units = "in",
+tiff("../Fig5.tiff", width = 12, height = 7, units = "in",
   res = 500, compression = "jpeg")          
 mar1 <- c(5.5, 6, 5.5, 2.3)
 mar2 <- c(5.5, 3, 5.5, 5.3)
@@ -1366,9 +1375,9 @@ tmpModU <- spiMod_parU
 
 
 
-tiff("FigESM2.tiff", width = 9, height = 5, units = "in",
+tiff("../FigESM4_S3.tiff", width = 12, height = 5, units = "in",
   res = 500, compression = "jpeg")          
-par(mfcol = c(2, 3), oma = c(1, 7, 4, 0),
+par(mfcol = c(2, 4), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
 
 lettLine <- 1.5  #<-- vertical line placement of panel letter
@@ -1453,7 +1462,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 
 mtext(text = "Sire variance", 
-     outer = TRUE, side = 3, line = 1, adj = 0.5, cex = 1.2)
+     outer = TRUE, side = 3, line = 1, adj = 0.39, cex = 1.2)
 #################
 # Culture variance
 #################
@@ -1493,7 +1502,48 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
      mtext(text = expression((bolditalic(f))),
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 mtext(text = "Culture variance", 
-     outer = TRUE, side = 3, line = 1, adj = 0.9, cex = 1.2)
+     outer = TRUE, side = 3, line = 1, adj = 0.66, cex = 1.2)
+
+#################
+# Block variance
+#################
+ ################### 
+ # Parent N  #####
+  NVb <- postPlot(tmpModN$VCV[, "blockFac"], plotHist = TRUE, histbreaks = 200,
+	xlim = c(0, 4), ylim = c(0, 8),
+	main = "",
+	xlab = "", ylab = "")
+	# estimate prior densities at posterior histogram midpoints
+	poh <- NVb$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")      
+     mtext(text = expression((bolditalic(g))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
+ ################### 
+ # Parent U  #####
+  UVb <- postPlot(tmpModU$VCV[, "blockFac"], plotHist = TRUE, histbreaks = 200,
+	xlim = c(0, 4), ylim = c(0, 8),
+	main = "",
+	xlab = expression(V[ Block ]), ylab = "")
+	# estimate prior densities at posterior histogram midpoints
+	poh <- UVb$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(h))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+mtext(text = "Block variance", 
+     outer = TRUE, side = 3, line = 1, adj = 0.95, cex = 1.2)
 
 
 mtext(text = " Parent\nUpwelling",
@@ -1502,8 +1552,6 @@ mtext(text = "Parent  \n Non-Upwelling",
      outer = TRUE, side = 2, line = 3, adj = 0.85, cex = 1.3)
 
 
-#dev.copy(pdf, "FigESM2.pdf", w = 9, h = 5)
-#dev.off()
 dev.off()
 
 
@@ -1518,7 +1566,7 @@ dev.off()
 ######################
 # Residual Variances
 ######################
-tiff("FigESM3.tiff", width = 5, height = 10, units = "in",
+tiff("../FigESM4_S4.tiff", width = 5, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(4, 1), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
@@ -1527,7 +1575,7 @@ lettLine <- 1.5  #<-- vertical line placement of panel letter
 lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
  ################### 
  # Parent N  #####
-  NVr1 <- postPlot(tmpModN$VCV[, 8], plotHist = TRUE,
+  NVr1 <- postPlot(tmpModN$VCV[, 9], plotHist = TRUE,
 	xlim = c(0, 1.5), ylim = c(0, 5),
 	main = "",
 	xlab = "", ylab = "Density",
@@ -1535,7 +1583,7 @@ lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
      mtext(text = expression((bolditalic(a))),
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
-  NVr2 <- postPlot(tmpModN$VCV[, 9], plotHist = TRUE,
+  NVr2 <- postPlot(tmpModN$VCV[, 10], plotHist = TRUE,
 	xlim = c(0, 2), ylim = c(0, 5),
 	main = "",
 	xlab = "", ylab = "Density",
@@ -1545,7 +1593,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  ################### 
  # Parent U  #####
 par(mgp = c(2.5, 1, 0))
-  UVr1 <- postPlot(tmpModU$VCV[, 8], plotHist = TRUE,
+  UVr1 <- postPlot(tmpModU$VCV[, 9], plotHist = TRUE,
 	xlim = c(0, 1.5), ylim = c(0, 5),
 	main = "",
 	xlab = "", ylab = "Density",
@@ -1554,7 +1602,7 @@ par(mgp = c(2.5, 1, 0))
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 
 par(mgp = c(2.5, 1, 0))
-  UVr2 <- postPlot(tmpModU$VCV[, 9], plotHist = TRUE,
+  UVr2 <- postPlot(tmpModU$VCV[, 10], plotHist = TRUE,
 	xlim = c(0, 2), ylim = c(0, 5),
 	main = "",
 	xlab = expression(V[ Residual ]), ylab = "Density",
@@ -1572,8 +1620,6 @@ mtext(text = "Parent Non-Upwelling",
   mtext(text = "Larval Upwelling         Larval Non-Upwelling",
      outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
 
-#dev.copy(pdf, "FigESM3.pdf", w = 5, h = 10)
-#dev.off()
 dev.off()
 
 
@@ -1601,9 +1647,9 @@ tmpModU <- bodMod_parU
 
 
 
-tiff("FigESM4.tiff", width = 9, height = 5, units = "in",
+tiff("../FigESM4_S5.tiff", width = 12, height = 5, units = "in",
   res = 500, compression = "jpeg")          
-par(mfcol = c(2, 3), oma = c(1, 7, 4, 0),
+par(mfcol = c(2, 4), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
 
 lettLine <- 1.5  #<-- vertical line placement of panel letter
@@ -1614,7 +1660,7 @@ lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
  ################### 
  # Parent N  #####
   NVdam <- postPlot(tmpModN$VCV[, 6], plotHist = TRUE,
-        xlim = c(0, 2.5), ylim = c(0, 6.1),
+        xlim = c(0, 2.0), ylim = c(0, 6),
 	main = "",
 	xlab = "", ylab = "Density")
 	# estimate prior densities at posterior histogram midpoints
@@ -1632,7 +1678,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  ################### 
  # Parent U  #####
   UVdam <- postPlot(tmpModU$VCV[, 6], plotHist = TRUE,
-        xlim = c(0, 2.5), ylim = c(0, 6.1),
+        xlim = c(0, 2.0), ylim = c(0, 9),
 	main = "",
 	xlab = expression(V[ Dam ]), ylab = "Density")
 	# estimate prior densities at posterior histogram midpoints
@@ -1656,7 +1702,7 @@ mtext(text = "Dam variance",
  ################### 
  # Parent N  #####
   NVsire <- postPlot(tmpModN$VCV[, 7], plotHist = TRUE,
-        xlim = c(0, 0.8), ylim = c(0, 75),
+        xlim = c(0, 0.58), ylim = c(0, 95),
 	main = "",
 	xlab = "", ylab = "")
 	# estimate prior densities at posterior histogram midpoints
@@ -1674,7 +1720,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  ################### 
  # Parent U  #####
   UVsire <- postPlot(tmpModU$VCV[, 7], plotHist = TRUE,
-        xlim = c(0, 1.75), ylim = c(0, 12),
+        xlim = c(0, 1.0), ylim = c(0, 17),
 	main = "",
 	xlab = expression(V[ Sire ]), ylab = "")
 	# estimate prior densities at posterior histogram midpoints
@@ -1690,13 +1736,14 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 
 mtext(text = "Sire variance", 
-     outer = TRUE, side = 3, line = 1, adj = 0.5, cex = 1.2)
+     outer = TRUE, side = 3, line = 1, adj = 0.39, cex = 1.2)
 #################
 # Culture variance
 #################
  ################### 
  # Parent N  #####
   NVc <- postPlot(tmpModN$VCV[, 5], plotHist = TRUE,
+        xlim = c(0, 0.16), ylim = c(0, 30),
 	main = "",
 	xlab = "", ylab = "")
 	# estimate prior densities at posterior histogram midpoints
@@ -1714,6 +1761,7 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
  ################### 
  # Parent U  #####
   UVc <- postPlot(tmpModU$VCV[, 5], plotHist = TRUE,
+        xlim = c(0, 0.3), ylim = c(0, 18),
 	main = "",
 	xlab = expression(V[ Culture ]), ylab = "")
 	# estimate prior densities at posterior histogram midpoints
@@ -1728,7 +1776,47 @@ par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
      mtext(text = expression((bolditalic(f))),
        side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 mtext(text = "Culture variance", 
-     outer = TRUE, side = 3, line = 1, adj = 0.9, cex = 1.2)
+     outer = TRUE, side = 3, line = 1, adj = 0.66, cex = 1.2)
+#################
+# Block variance
+#################
+ ################### 
+ # Parent N  #####
+  NVb <- postPlot(tmpModN$VCV[, "blockFac"], plotHist = TRUE, histbreaks = 200,
+	xlim = c(0, 1.5), ylim = c(0, 10),
+	main = "",
+	xlab = "", ylab = "")
+	# estimate prior densities at posterior histogram midpoints
+	poh <- NVb$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")      
+     mtext(text = expression((bolditalic(g))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
+ ################### 
+ # Parent U  #####
+  UVb <- postPlot(tmpModU$VCV[, "blockFac"], plotHist = TRUE, histbreaks = 200,
+	xlim = c(0, 1.5), ylim = c(0, 10),
+	main = "",
+	xlab = expression(V[ Block ]), ylab = "")
+	# estimate prior densities at posterior histogram midpoints
+	poh <- UVb$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(h))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+mtext(text = "Block variance", 
+     outer = TRUE, side = 3, line = 1, adj = 0.95, cex = 1.2)
 
 
 mtext(text = " Parent\nUpwelling",
@@ -1737,8 +1825,7 @@ mtext(text = "Parent  \n Non-Upwelling",
      outer = TRUE, side = 2, line = 3, adj = 0.85, cex = 1.3)
 
 
-#dev.copy(pdf, "FigESM4.pdf", w = 9, h = 5)
-#dev.off()
+
 dev.off()
 
 
