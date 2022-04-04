@@ -936,6 +936,12 @@ dev.off()
 ## Fgure 5
 ######################################
 
+# Extract random effects
+## First get names of all effects from column names of the Sol object
+## Then search for additive genetic values (BV) which are prefixed by "animal"
+## Match with order of animals from data (parN/parU)
+
+### Spicule length
 nms_spiModN <- dimnames(spiMod_parN$Sol)[[2]]
   slnAnimNms_spiModN <- sapply(strsplit(nms_spiModN, "animal."), FUN = "[", i = 2)
   animBVind_spiModN <- match(parN$animal, slnAnimNms_spiModN)
@@ -943,6 +949,7 @@ nms_spiModU <- dimnames(spiMod_parU$Sol)[[2]]
   slnAnimNms_spiModU <- sapply(strsplit(nms_spiModU, "animal."), FUN = "[", i = 2)
   animBVind_spiModU <- match(parU$animal, slnAnimNms_spiModU)
 
+### Body length
 nms_bodModN <- dimnames(bodMod_parN$Sol)[[2]]
   slnAnimNms_bodModN <- sapply(strsplit(nms_bodModN, "animal."), FUN = "[", i = 2)
   animBVind_bodModN <- match(parN$animal, slnAnimNms_bodModN)
@@ -952,8 +959,14 @@ nms_bodModU <- dimnames(bodMod_parU$Sol)[[2]]
 
 
 
+# Go through each MCMC sample to calculate posterior of family mean values
+## calc. each family's mean add. genetic value (BV) of larvae in each treatment
+
+### Spicule length
+#### parent N
 spiModN_FamTrtMeanPost <- matrix(NA, nrow = nrow(spiMod_parN$Sol), ncol = 2*20)
 for(i in 1:nrow(spiMod_parN$Sol)){
+  # mean of each family-by-treatment combination
   i_FamTrtMean <- aggregate(spiMod_parN$Sol[i, animBVind_spiModN] ~ parN$cross +
     parN$treat_dev, FUN = mean)
   if(i == 1){
@@ -963,8 +976,11 @@ for(i in 1:nrow(spiMod_parN$Sol)){
   }
   spiModN_FamTrtMeanPost[i, ] <- i_FamTrtMean[, 3]
 }  
+
+#### parentU
 spiModU_FamTrtMeanPost <- matrix(NA, nrow = nrow(spiMod_parU$Sol), ncol = 2*20)
 for(i in 1:nrow(spiMod_parU$Sol)){
+  # mean of each family-by-treatment combination
   i_FamTrtMean <- aggregate(spiMod_parU$Sol[i, animBVind_spiModU] ~ parU$cross +
     parU$treat_dev, FUN = mean)
   if(i == 1){
@@ -976,8 +992,12 @@ for(i in 1:nrow(spiMod_parU$Sol)){
 }  
 
 
+
+### Body length
+#### parent N
 bodModN_FamTrtMeanPost <- matrix(NA, nrow = nrow(bodMod_parN$Sol), ncol = 2*20)
 for(i in 1:nrow(bodMod_parN$Sol)){
+  # mean of each family-by-treatment combination
   i_FamTrtMean <- aggregate(bodMod_parN$Sol[i, animBVind_bodModN] ~ parN$cross +
     parN$treat_dev, FUN = mean)
   if(i == 1){
@@ -987,8 +1007,11 @@ for(i in 1:nrow(bodMod_parN$Sol)){
   }
   bodModN_FamTrtMeanPost[i, ] <- i_FamTrtMean[, 3]
 }  
+
+#### parent U
 bodModU_FamTrtMeanPost <- matrix(NA, nrow = nrow(bodMod_parU$Sol), ncol = 2*20)
 for(i in 1:nrow(bodMod_parU$Sol)){
+  # mean of each family-by-treatment combination
   i_FamTrtMean <- aggregate(bodMod_parU$Sol[i, animBVind_bodModU] ~ parU$cross +
     parU$treat_dev, FUN = mean)
   if(i == 1){
@@ -1000,7 +1023,10 @@ for(i in 1:nrow(bodMod_parU$Sol)){
 }  
 
 
-class(spiModN_FamTrtMeanPost) <- class(spiModU_FamTrtMeanPost) <- class(bodModN_FamTrtMeanPost) <- class(bodModU_FamTrtMeanPost) <- "mcmc"
+# Assign mcmc class and attributes so these will be treated as posteriors
+class(spiModN_FamTrtMeanPost) <- class(spiModU_FamTrtMeanPost) <-
+  class(bodModN_FamTrtMeanPost) <- class(bodModU_FamTrtMeanPost) <- "mcmc"
+
   attr(spiModN_FamTrtMeanPost, "mcpar") <- attr(spiMod_parN$Sol, "mcpar")
   attr(spiModU_FamTrtMeanPost, "mcpar") <- attr(spiMod_parU$Sol, "mcpar")
   attr(bodModN_FamTrtMeanPost, "mcpar") <- attr(bodMod_parN$Sol, "mcpar")
@@ -1009,24 +1035,44 @@ class(spiModN_FamTrtMeanPost) <- class(spiModU_FamTrtMeanPost) <- class(bodModN_
 
 
 
-# Calculate posterior mean famliy BVs, rank them so can assign y-axis position
-spiModN_FamMeanBV_devNmean <- apply(spiModN_FamTrtMeanPost[, 1:20], MARGIN = 2, FUN = mean)
-spiModN_FamMeanBV_devUmean <- apply(spiModN_FamTrtMeanPost[, 21:40], MARGIN = 2, FUN = mean)
-spiModN_FamMeanBV_devNmean_rank <- -1*rank(spiModN_FamMeanBV_devNmean) #<-- -1 so rank 1 at "top" of figure
+# Calculate posterior mean of mean family additive genetic value (BV)
+## then rank them so can assign y-axis position
+
+## Spicule length
+### parent N
+spiModN_FamMeanBV_devNmean <- apply(spiModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = mean)
+spiModN_FamMeanBV_devUmean <- apply(spiModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = mean)
+#### (-1 so rank 1 at "top" of figure)
+spiModN_FamMeanBV_devNmean_rank <- -1*rank(spiModN_FamMeanBV_devNmean) 
 spiModN_FamMeanBV_devUmean_rank <- -1*rank(spiModN_FamMeanBV_devUmean)
- 
-spiModU_FamMeanBV_devNmean <- apply(spiModU_FamTrtMeanPost[, 1:20], MARGIN = 2, FUN = mean)
-spiModU_FamMeanBV_devUmean <- apply(spiModU_FamTrtMeanPost[, 21:40], MARGIN = 2, FUN = mean)
+
+### parent U
+spiModU_FamMeanBV_devNmean <- apply(spiModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = mean)
+spiModU_FamMeanBV_devUmean <- apply(spiModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = mean)
+#### (-1 so rank 1 at "top" of figure)
 spiModU_FamMeanBV_devNmean_rank <- -1*rank(spiModU_FamMeanBV_devNmean)
 spiModU_FamMeanBV_devUmean_rank <- -1*rank(spiModU_FamMeanBV_devUmean)
-#
-bodModN_FamMeanBV_devNmean <- apply(bodModN_FamTrtMeanPost[, 1:20], MARGIN = 2, FUN = mean)
-bodModN_FamMeanBV_devUmean <- apply(bodModN_FamTrtMeanPost[, 21:40], MARGIN = 2, FUN = mean)
+
+## Body length
+### parent N
+bodModN_FamMeanBV_devNmean <- apply(bodModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = mean)
+bodModN_FamMeanBV_devUmean <- apply(bodModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = mean)
+#### (-1 so rank 1 at "top" of figure)
 bodModN_FamMeanBV_devNmean_rank <- -1*rank(bodModN_FamMeanBV_devNmean)
 bodModN_FamMeanBV_devUmean_rank <- -1*rank(bodModN_FamMeanBV_devUmean)
- 
-bodModU_FamMeanBV_devNmean <- apply(bodModU_FamTrtMeanPost[, 1:20], MARGIN = 2, FUN = mean)
-bodModU_FamMeanBV_devUmean <- apply(bodModU_FamTrtMeanPost[, 21:40], MARGIN = 2, FUN = mean)
+
+### parent U 
+bodModU_FamMeanBV_devNmean <- apply(bodModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = mean)
+bodModU_FamMeanBV_devUmean <- apply(bodModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = mean)
+#### (-1 so rank 1 at "top" of figure)
 bodModU_FamMeanBV_devNmean_rank <- -1*rank(bodModU_FamMeanBV_devNmean)
 bodModU_FamMeanBV_devUmean_rank <- -1*rank(bodModU_FamMeanBV_devUmean)
   
