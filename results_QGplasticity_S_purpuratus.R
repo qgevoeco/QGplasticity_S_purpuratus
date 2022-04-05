@@ -966,7 +966,7 @@ nms_bodModU <- dimnames(bodMod_parU$Sol)[[2]]
 #### parent N
 spiModN_FamTrtMeanPost <- matrix(NA, nrow = nrow(spiMod_parN$Sol), ncol = 2*20)
 for(i in 1:nrow(spiMod_parN$Sol)){
-  # mean of each family-by-treatment combination
+  # mean (across larvae) of each family-by-treatment combination
   i_FamTrtMean <- aggregate(spiMod_parN$Sol[i, animBVind_spiModN] ~ parN$cross +
     parN$treat_dev, FUN = mean)
   if(i == 1){
@@ -980,7 +980,7 @@ for(i in 1:nrow(spiMod_parN$Sol)){
 #### parentU
 spiModU_FamTrtMeanPost <- matrix(NA, nrow = nrow(spiMod_parU$Sol), ncol = 2*20)
 for(i in 1:nrow(spiMod_parU$Sol)){
-  # mean of each family-by-treatment combination
+  # mean (across larvae) of each family-by-treatment combination
   i_FamTrtMean <- aggregate(spiMod_parU$Sol[i, animBVind_spiModU] ~ parU$cross +
     parU$treat_dev, FUN = mean)
   if(i == 1){
@@ -997,7 +997,7 @@ for(i in 1:nrow(spiMod_parU$Sol)){
 #### parent N
 bodModN_FamTrtMeanPost <- matrix(NA, nrow = nrow(bodMod_parN$Sol), ncol = 2*20)
 for(i in 1:nrow(bodMod_parN$Sol)){
-  # mean of each family-by-treatment combination
+  # mean (across larvae) of each family-by-treatment combination
   i_FamTrtMean <- aggregate(bodMod_parN$Sol[i, animBVind_bodModN] ~ parN$cross +
     parN$treat_dev, FUN = mean)
   if(i == 1){
@@ -1011,7 +1011,7 @@ for(i in 1:nrow(bodMod_parN$Sol)){
 #### parent U
 bodModU_FamTrtMeanPost <- matrix(NA, nrow = nrow(bodMod_parU$Sol), ncol = 2*20)
 for(i in 1:nrow(bodMod_parU$Sol)){
-  # mean of each family-by-treatment combination
+  # mean (across larvae) of each family-by-treatment combination
   i_FamTrtMean <- aggregate(bodMod_parU$Sol[i, animBVind_bodModU] ~ parU$cross +
     parU$treat_dev, FUN = mean)
   if(i == 1){
@@ -1034,47 +1034,103 @@ class(spiModN_FamTrtMeanPost) <- class(spiModU_FamTrtMeanPost) <-
 
 
 
+###################     DIVERSION/ASIDE   ######################################
+# Posterior (1) mode versus (2) mean of family mean additive genetic value
+## What single metric better represents the posterior probability?
 
-# Calculate posterior mean of mean family additive genetic value (BV)
+### First look at the probability distributions
+#### plot each family and development environment probability distribution
+
+#### Spicule Length: Parent N - Larvae N
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(spiModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))   
+#### Spicule Length: Parent N - Larvae U
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(spiModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))
+
+#### Spicule Length: Parent U - Larvae N
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(spiModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))   
+#### Spicule Length: Parent U - Larvae U
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(spiModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))
+
+
+
+#### Body Length: Parent N - Larvae N
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(bodModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))   
+#### Body Length: Parent N - Larvae U
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(bodModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))
+
+#### Body Length: Parent U - Larvae N
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(bodModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))   
+#### Body Length: Parent U - Larvae U
+par(mfrow = c(4, 5))
+  ignoreOutput <- apply(bodModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
+    FUN = function(x) postPlot(as.mcmc(x)))
+
+dev.off()
+
+#XXX Often very leptokurtic (though Body Length parent N show less kurtosis) and
+## sometimes quite skewed. When posterior distributions show skew, posterior mean
+## and modes may indicate different attributes of the distribution. In this case,
+## a posterior mode gives the parameter value with highest posterior probability,
+## so we will use that descriptive statistic to summarize the family mean additive
+## genetic value. The posterior mode also describes the posterior probability
+## with the highest posterior density (i.e., a very, very narrow credible interval)
+## which is often a quite high probablity as the distribution is more leptokurtic
+#################    END Diversion/Aside  ######################################
+
+# Calculate posterior mode of mean family additive genetic value (BV)
 ## then rank them so can assign y-axis position
 
 ## Spicule length
 ### parent N
-spiModN_FamMeanBV_devNmean <- apply(spiModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
-  FUN = mean)
-spiModN_FamMeanBV_devUmean <- apply(spiModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
-  FUN = mean)
+spiModN_FamMeanBV_devNmode <- apply(spiModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
+spiModN_FamMeanBV_devUmode <- apply(spiModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
 #### (-1 so rank 1 at "top" of figure)
-spiModN_FamMeanBV_devNmean_rank <- -1*rank(spiModN_FamMeanBV_devNmean) 
-spiModN_FamMeanBV_devUmean_rank <- -1*rank(spiModN_FamMeanBV_devUmean)
+spiModN_FamMeanBV_devNmode_rank <- -1*rank(spiModN_FamMeanBV_devNmode) 
+spiModN_FamMeanBV_devUmode_rank <- -1*rank(spiModN_FamMeanBV_devUmode)
 
 ### parent U
-spiModU_FamMeanBV_devNmean <- apply(spiModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
-  FUN = mean)
-spiModU_FamMeanBV_devUmean <- apply(spiModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
-  FUN = mean)
+spiModU_FamMeanBV_devNmode <- apply(spiModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
+spiModU_FamMeanBV_devUmode <- apply(spiModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
 #### (-1 so rank 1 at "top" of figure)
-spiModU_FamMeanBV_devNmean_rank <- -1*rank(spiModU_FamMeanBV_devNmean)
-spiModU_FamMeanBV_devUmean_rank <- -1*rank(spiModU_FamMeanBV_devUmean)
+spiModU_FamMeanBV_devNmode_rank <- -1*rank(spiModU_FamMeanBV_devNmode)
+spiModU_FamMeanBV_devUmode_rank <- -1*rank(spiModU_FamMeanBV_devUmode)
 
 ## Body length
 ### parent N
-bodModN_FamMeanBV_devNmean <- apply(bodModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
-  FUN = mean)
-bodModN_FamMeanBV_devUmean <- apply(bodModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
-  FUN = mean)
+bodModN_FamMeanBV_devNmode <- apply(bodModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
+bodModN_FamMeanBV_devUmode <- apply(bodModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
 #### (-1 so rank 1 at "top" of figure)
-bodModN_FamMeanBV_devNmean_rank <- -1*rank(bodModN_FamMeanBV_devNmean)
-bodModN_FamMeanBV_devUmean_rank <- -1*rank(bodModN_FamMeanBV_devUmean)
+bodModN_FamMeanBV_devNmode_rank <- -1*rank(bodModN_FamMeanBV_devNmode)
+bodModN_FamMeanBV_devUmode_rank <- -1*rank(bodModN_FamMeanBV_devUmode)
 
 ### parent U 
-bodModU_FamMeanBV_devNmean <- apply(bodModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
-  FUN = mean)
-bodModU_FamMeanBV_devUmean <- apply(bodModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
-  FUN = mean)
+bodModU_FamMeanBV_devNmode <- apply(bodModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
+bodModU_FamMeanBV_devUmode <- apply(bodModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
+  FUN = function(x) posterior.mode(as.mcmc(x)))
 #### (-1 so rank 1 at "top" of figure)
-bodModU_FamMeanBV_devNmean_rank <- -1*rank(bodModU_FamMeanBV_devNmean)
-bodModU_FamMeanBV_devUmean_rank <- -1*rank(bodModU_FamMeanBV_devUmean)
+bodModU_FamMeanBV_devNmode_rank <- -1*rank(bodModU_FamMeanBV_devNmode)
+bodModU_FamMeanBV_devUmode_rank <- -1*rank(bodModU_FamMeanBV_devUmode)
   
  
 
@@ -1111,11 +1167,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(spiModN_FamMeanBV_devNmean_rank[i],
-     spiModN_FamMeanBV_devUmean_rank[i]))
-  # means
-   points(x = c(1.1, 2.9), y = c(spiModN_FamMeanBV_devNmean_rank[i],
-       spiModN_FamMeanBV_devUmean_rank[i]),
+   lines(x = c(1.1, 2.9), y = c(spiModN_FamMeanBV_devNmode_rank[i],
+     spiModN_FamMeanBV_devUmode_rank[i]))
+  # modes
+   points(x = c(1.1, 2.9), y = c(spiModN_FamMeanBV_devNmode_rank[i],
+       spiModN_FamMeanBV_devUmode_rank[i]),
      pch = 21, bg = c(NNcl, NUcl), cex = 2)
  }
 
@@ -1131,11 +1187,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(spiModU_FamMeanBV_devNmean_rank[i],
-     spiModU_FamMeanBV_devUmean_rank[i]))
-  # means
-   points(x = c(1.1, 2.9), y = c(spiModU_FamMeanBV_devNmean_rank[i],
-       spiModU_FamMeanBV_devUmean_rank[i]),
+   lines(x = c(1.1, 2.9), y = c(spiModU_FamMeanBV_devNmode_rank[i],
+     spiModU_FamMeanBV_devUmode_rank[i]))
+  # modes
+   points(x = c(1.1, 2.9), y = c(spiModU_FamMeanBV_devNmode_rank[i],
+       spiModU_FamMeanBV_devUmode_rank[i]),
      pch = 21, bg = c(UNcl, UUcl), cex = 2)
  }
 
@@ -1155,11 +1211,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(bodModN_FamMeanBV_devNmean_rank[i],
-     bodModN_FamMeanBV_devUmean_rank[i]))
-  # means
-   points(x = c(1.1, 2.9), y = c(bodModN_FamMeanBV_devNmean_rank[i],
-       bodModN_FamMeanBV_devUmean_rank[i]),
+   lines(x = c(1.1, 2.9), y = c(bodModN_FamMeanBV_devNmode_rank[i],
+     bodModN_FamMeanBV_devUmode_rank[i]))
+  # modes
+   points(x = c(1.1, 2.9), y = c(bodModN_FamMeanBV_devNmode_rank[i],
+       bodModN_FamMeanBV_devUmode_rank[i]),
      pch = 21, bg = c(NNcl, NUcl), cex = 2)
  }
 
@@ -1176,11 +1232,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(bodModU_FamMeanBV_devNmean_rank[i],
-     bodModU_FamMeanBV_devUmean_rank[i]))
-  # means
-   points(x = c(1.1, 2.9), y = c(bodModU_FamMeanBV_devNmean_rank[i],
-       bodModU_FamMeanBV_devUmean_rank[i]),
+   lines(x = c(1.1, 2.9), y = c(bodModU_FamMeanBV_devNmode_rank[i],
+     bodModU_FamMeanBV_devUmode_rank[i]))
+  # modes
+   points(x = c(1.1, 2.9), y = c(bodModU_FamMeanBV_devNmode_rank[i],
+       bodModU_FamMeanBV_devUmode_rank[i]),
      pch = 21, bg = c(UNcl, UUcl), cex = 2)
  }
 
@@ -1256,8 +1312,6 @@ mtext(text = "Parent Non-Upwelling",
 mtext(text = "Parent Upwelling",
      outer = TRUE, side = 3, line = -1.9, adj = 0.915, cex = 1.25)
 
-#dev.copy(pdf, "Fig5.pdf", w = 12, h = 7)
-#dev.off()
 dev.off()
 
 
