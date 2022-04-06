@@ -1042,43 +1042,97 @@ class(spiModN_FamTrtMeanPost) <- class(spiModU_FamTrtMeanPost) <-
 #### plot each family and development environment probability distribution
 
 #### Spicule Length: Parent N - Larvae N
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S7.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))   
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))  
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
+dev.off()
 #### Spicule Length: Parent N - Larvae U
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S8.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
+dev.off()
 
 #### Spicule Length: Parent U - Larvae N
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S9.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))   
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))   
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
+dev.off()
 #### Spicule Length: Parent U - Larvae U
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S10.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))   
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
+dev.off()
 
 
 
 #### Body Length: Parent N - Larvae N
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S11.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))   
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))   
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
+dev.off()
 #### Body Length: Parent N - Larvae U
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S12.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))   
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
+dev.off()
 
 #### Body Length: Parent U - Larvae N
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S13.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))   
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))   
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
+dev.off()
 #### Body Length: Parent U - Larvae U
-par(mfrow = c(4, 5))
+tiff("../FigESM5_S14.tiff", width = 12, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
-    FUN = function(x) postPlot(as.mcmc(x)))
-
+    FUN = function(x) postPlot(as.mcmc(x), xlab = "", ylab = ""))   
+  mtext(text = "Density",
+     outer = TRUE, side = 2, line = -2.5, adj = 0.55, cex = 2.2)
+  mtext(text = "Family mean additive genetic value",
+     outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
 dev.off()
 
 #XXX Often very leptokurtic (though Body Length parent N show less kurtosis) and
