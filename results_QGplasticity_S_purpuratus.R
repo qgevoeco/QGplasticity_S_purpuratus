@@ -608,8 +608,8 @@ mtext(text = "heritability", # expression(paste("heritability"[   ]))
 #################
 xlimIn1 <- c(0, 0.015)
 xlimIn2 <- c(0, 0.05)
-ylimIn1 <- c(0, 600)
-ylimIn2 <- c(0, 100)
+ylimIn1 <- c(0, 650)
+ylimIn2 <- c(0, 150)
  ################### 
  # Parent N  #####
   postPlot(tmpIa[, 1], #denscol = clPurp[1],
@@ -663,8 +663,6 @@ mtext(text = "Parent Non-Upwelling",
   mtext(text = "Larval Upwelling        Larval Non-Upwelling",
      outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
 
-#dev.copy(pdf, "Fig3.pdf", w = 9, h = 10)
-#dev.off()
 dev.off()
 
 
@@ -714,7 +712,7 @@ lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
 #################
 genXlim1in <- c(0, 1.4)
 genXlim2in <- c(0, 1.0)
-genYlim1in <- c(0, 6.5)
+genYlim1in <- c(0, 7.5)
 genYlim2in <- c(0, 20)
  ################### 
  # Parent N  #####
@@ -794,8 +792,8 @@ mtext(text = "Additive genetic variance", #    expression(V[ A ])
 #################
 # h2s
 #################
-ylimin1 <- c(0, 6)
-ylimin2 <- c(0, 20)
+ylimin1 <- c(0, 12)
+ylimin2 <- c(0, 25)
  ################### 
  # Parent N  #####
   postPlot(tmph2[, 1], #denscol = clPurp[1],
@@ -851,8 +849,8 @@ mtext(text = "heritability", # expression(paste("heritability"[   ]))
 #################
 xlimIn1 <- c(0, 0.0065)
 xlimIn2 <- c(0, 0.0065)
-ylimIn1 <- c(0, 820)
-ylimIn2 <- c(0, 4000)
+ylimIn1 <- c(0, 1200)
+ylimIn2 <- c(0, 3800)
  ################### 
  # Parent N  #####
   postPlot(tmpIa[, 1], #denscol = clPurp[1],
@@ -906,8 +904,6 @@ mtext(text = "Parent Non-Upwelling",
   mtext(text = "Larval Upwelling        Larval Non-Upwelling",
      outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
 
-#dev.copy(pdf, "Fig4.pdf", w = 9, h = 10)
-#dev.off()
 dev.off()
 
 
