@@ -1153,7 +1153,9 @@ par(mfrow = c(2, 4), mar = mar1,
 
 lettLine <- 1.4  #<-- vertical line placement of panel letter
 lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
-lettAdj2 <- -0.2 
+lettAdj2 <- -0.2
+# Create generic vector of line colors to connect N-U larval envrionment ranks
+lineCols <- rep(c("black", "grey70"), each = 10)
 #################
 # reaction norms
 #################
@@ -1167,8 +1169,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(spiModN_FamMeanBV_devNmode_rank[i],
-     spiModN_FamMeanBV_devUmode_rank[i]))
+     ## map line colors onto ranking order according to the N larval environment
+     lineColsO <- lineCols[-1 * spiModN_FamMeanBV_devNmode_rank]
+   lines(x = c(1.1, 2.9),
+     y = c(spiModN_FamMeanBV_devNmode_rank[i], spiModN_FamMeanBV_devUmode_rank[i]),
+     lwd = 3, col = lineColsO[i])
   # modes
    points(x = c(1.1, 2.9), y = c(spiModN_FamMeanBV_devNmode_rank[i],
        spiModN_FamMeanBV_devUmode_rank[i]),
@@ -1187,8 +1192,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(spiModU_FamMeanBV_devNmode_rank[i],
-     spiModU_FamMeanBV_devUmode_rank[i]))
+     ## map line colors onto ranking order according to the N larval environment
+     lineColsO <- lineCols[-1 * spiModU_FamMeanBV_devNmode_rank]
+   lines(x = c(1.1, 2.9),
+     y = c(spiModU_FamMeanBV_devNmode_rank[i], spiModU_FamMeanBV_devUmode_rank[i]),
+     lwd = 3, col = lineColsO[i])
   # modes
    points(x = c(1.1, 2.9), y = c(spiModU_FamMeanBV_devNmode_rank[i],
        spiModU_FamMeanBV_devUmode_rank[i]),
@@ -1211,8 +1219,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(bodModN_FamMeanBV_devNmode_rank[i],
-     bodModN_FamMeanBV_devUmode_rank[i]))
+     ## map line colors onto ranking order according to the N larval environment
+     lineColsO <- lineCols[-1 * bodModN_FamMeanBV_devNmode_rank]
+   lines(x = c(1.1, 2.9),
+     y = c(bodModN_FamMeanBV_devNmode_rank[i], bodModN_FamMeanBV_devUmode_rank[i]),
+     lwd = 3, col = lineColsO[i])
   # modes
    points(x = c(1.1, 2.9), y = c(bodModN_FamMeanBV_devNmode_rank[i],
        bodModN_FamMeanBV_devUmode_rank[i]),
@@ -1232,8 +1243,11 @@ plot(x = rep(c(1,3), each = 20), y = rep(-1*seq(20), 2),
 
  for(i in 1:20){
   # lines/reaction norms
-   lines(x = c(1.1, 2.9), y = c(bodModU_FamMeanBV_devNmode_rank[i],
-     bodModU_FamMeanBV_devUmode_rank[i]))
+     ## map line colors onto ranking order according to the N larval environment
+     lineColsO <- lineCols[-1 * bodModU_FamMeanBV_devNmode_rank]
+   lines(x = c(1.1, 2.9),
+     y = c(bodModU_FamMeanBV_devNmode_rank[i], bodModU_FamMeanBV_devUmode_rank[i]),
+     lwd = 3, col = lineColsO[i])
   # modes
    points(x = c(1.1, 2.9), y = c(bodModU_FamMeanBV_devNmode_rank[i],
        bodModU_FamMeanBV_devUmode_rank[i]),
