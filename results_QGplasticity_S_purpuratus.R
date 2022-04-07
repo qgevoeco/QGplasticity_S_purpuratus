@@ -59,6 +59,7 @@ eggs <- read.table("data_eggs.txt", header = TRUE)
   eggs <- within(eggs, {
     treat_adult <- as.factor(treat_adult)
     tube <- as.factor(tube)
+    blockFac <- as.factor(block)
   })
   
 
@@ -109,7 +110,8 @@ clPurp <- clP16[c(1:6, 15:16)]
 #####   Eggs Diameter               ######
 ##########################################
 # Egg diameter
-glm_egg <- lmer(Average ~ treat_adult + (1 | tube), data = eggs)
+glm_egg <- lmer(Average ~ treat_adult + (1 | blockFac) + (1 | blockFac:tube),
+  data = eggs)
 anova(glm_egg)
 
 
