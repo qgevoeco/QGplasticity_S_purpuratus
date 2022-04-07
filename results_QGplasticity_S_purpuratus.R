@@ -40,14 +40,14 @@ parU <- read.table("data_parU.txt", header = TRUE)
 # Percent abnormalities
 percAb_parN <- read.table("percAb_parN.txt", header = TRUE)
   percAb_parN <- within(percAb_parN, {
-    bucket <- as.factor(bucket)
+    culture <- as.factor(culture)
     treat_dev <- as.factor(treat_dev)
     blockFac <- as.factor(blockFac)
   })
   
 percAb_parU <- read.table("percAb_parU.txt", header = TRUE)
   percAb_parU <- within(percAb_parU, {
-    bucket <- as.factor(bucket)
+    culture <- as.factor(culture)
     treat_dev <- as.factor(treat_dev)
     blockFac <- as.factor(blockFac)
   })
