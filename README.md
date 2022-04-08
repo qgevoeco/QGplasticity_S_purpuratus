@@ -14,15 +14,17 @@ Column headings for the datasets reflect variables defined and discussed in the 
 
   - `Length.spi` and `Length.bod`: measurements (in mm) of larval spicule length and body length, respectively.
   - `scLength.spi` and `scLength.bod`: scaled values of the above two measurements. These are obtained by multiplying the original measurement by 100.
-  - `treat_dev`: Either non-upwelling (N) or upwelling (U) environmental conditions in which each larvae was reared.
+  - `treat_dev` and `treat_adult`: Either non-upwelling (N) or upwelling (U) environmental conditions in which each larvae was reared or each parent was conditioned.
   - `measurer.spi` and `measurer.bod`: identity of the individual conducting the measurement, coded as -0.5 or 0.5. Two people total made all of the measurements.
   - `animal`: unique code for each individual that was measured.
-  - `tubeFac` (sometimes just `tube`): factor indicating the culture tube in which an individual larvae was reared.
+  - `cultureFac` (sometimes just `culture`): factor indicating the culture tube in which an individual larvae was reared.
+  - `blockFac` (sometimes just `block`): factor indicating the experimental block (day) in which an individual larvae was produced.
   - `Dam` and `Sire`: each individual's maternal or paternal identity.
   - `cross`: unique factor indicating the cross between maternal egg and paternal sperm that created each individual.
   - `bucket`: factor indicating the rearing bucket in which all eggs from a given cross were reared.
-  - `PercAb`: percentage (0-1) of eggs assayed that were identified as displaying abnormal growth or development.
-  - `Average`: Average egg diameter for a dam. 
+  - `PercAb`: proportion (0-1) of eggs assayed that were identified as displaying abnormal growth or development.
+  - `Average`: average egg diameter for a dam. 
+  - `tube`: factor indicating culture tube associated with dam identity from which eggs were sampled.
 
 ## Changes
 For ease of reference, an overview of significant changes to be noted below. Tag with commits or issues, where appropriate.
