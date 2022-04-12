@@ -366,10 +366,10 @@ IaPrior <- as.mcmc(simPriors[, "VA1"] / (rnorm(nrow(simPriors), 0, sqrt(1e10))^2
 
 ####################
 
-# Figure 2   
+# Figure 1   
 
 ####################
-tiff("../Fig2.tiff", width = 8, height = 5, units = "in",
+tiff("../Fig1.tiff", width = 8, height = 5, units = "in",
   res = 500, compression = "jpeg")          
 
 ## Model Treatment Mean Reaction Norms
@@ -467,162 +467,26 @@ dev.off()
 
 ######################################
 
-# spicule Length
-## Fgure 3
+# Ia (Evolvability ) Spicule and Body Length
+## Fgure 2
 
 ######################################
-tmpModN <- spiMod_parN
-tmpModU <- spiMod_parU
-tmph2 <- spih2
-tmpIa <- spiIa
 
 
-tiff("../Fig3.tiff", width = 9, height = 10, units = "in",
+tiff("../Fig2.tiff", width = 7, height = 10, units = "in",
   res = 500, compression = "jpeg")          
-par(mfcol = c(4, 3), oma = c(1, 7, 4, 0),
+par(mfcol = c(4, 2), oma = c(1, 6, 4, 0),
   mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
 
 lettLine <- 1.5  #<-- vertical line placement of panel letter
 lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
-#################
-# VAs
-#################
-genXlim1in <- c(0, 2.0)
-genXlim2in <- c(0, 3.5)
-genYlim1in <- c(0, 5)
-genYlim2in <- c(0, 1.2)
- ################### 
- # Parent N  #####
-  NVA1 <- postPlot(tmpModN$VCV[, 1], plotHist = TRUE,
-	xlim = genXlim1in, ylim = genYlim1in,
-	main = "",
-	xlab = "", ylab = "Density",
-	histcol = NNcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- NVA1$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(a))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
-  NVA2 <- postPlot(tmpModN$VCV[, 4], plotHist = TRUE,
-	xlim = genXlim2in, ylim = genYlim2in,
-	main = "",
-	xlab = "", ylab = "Density",
-	histcol = NUcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- NVA2$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(b))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
- ################### 
- # Parent U  #####
-par(mgp = c(2.5, 1, 0))
-  UVA1 <- postPlot(tmpModU$VCV[, 1], plotHist = TRUE,
-	xlim = genXlim1in, ylim = genYlim1in,
-	main = "",
-	xlab = "", ylab = "Density",
-	histcol = UNcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- UVA1$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(c))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-
-par(mgp = c(2.5, 1, 0))
-  UVA2 <- postPlot(tmpModU$VCV[, 4], plotHist = TRUE,
-	xlim = genXlim2in, ylim = genYlim2in,
-	main = "",
-	xlab = expression(V[ A ]), ylab = "Density",
-	histcol = UUcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- UVA2$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(d))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-mtext(text = "Additive genetic variance", #    expression(V[ A ])
-     outer = TRUE, side = 3, line = 1, adj = 0.05, cex = 1.2)
-
-#################
-# h2s
-#################
-ylimin1 <- ylimin2 <- c(0, 11)
- ################### 
- # Parent N  #####
-  postPlot(tmph2[, 1], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = NNcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin1)
-   mtext(text = expression((bolditalic(e))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
-
-  postPlot(tmph2[, 2], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = NUcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin1)
-   mtext(text = expression((bolditalic(f))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
- ################### 
- # Parent U  #####
-  postPlot(tmph2[, 3], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = UNcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin2)
-   mtext(text = expression((bolditalic(g))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
-   
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
-  postPlot(tmph2[, 4], #denscol = clPurp[1],
-	main = "",
-	xlab = expression("h"^2), ylab = "",
-	histbreaks = 50, histcol = UUcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin2)
-   mtext(text = expression((bolditalic(h))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
-mtext(text = "heritability", # expression(paste("heritability"[   ]))
-     outer = TRUE, side = 3, line = 1, adj = 0.5, cex = 1.2)
 
 #################
 # evolvabilities (Ia)
 #################
+# Spicule Length
+tmpIa <- spiIa
+
 xlimIn1 <- c(0, 0.015)
 xlimIn2 <- c(0, 0.05)
 ylimIn1 <- c(0, 650)
@@ -631,239 +495,55 @@ ylimIn2 <- c(0, 150)
  # Parent N  #####
   postPlot(tmpIa[, 1], #denscol = clPurp[1],
 	main = "",
-	xlab = "", ylab = "",
+	xlab = "", ylab = "Density",
 	histbreaks = 50, histcol = NNcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn1, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(i))),
+   mtext(text = expression((bolditalic(a))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
   postPlot(tmpIa[, 2], #denscol = clPurp[1],
 	main = "",
-	xlab = "", ylab = "",
+	xlab = "", ylab = "Density",
 	histbreaks = 50, histcol = NUcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn2, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(j))),
+   mtext(text = expression((bolditalic(b))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
  ################### 
  # Parent U  #####
+par(mgp = c(2.5, 1, 0))
   postPlot(tmpIa[, 3], #denscol = clPurp[1],
 	main = "",
-	xlab = "", ylab = "",
+	xlab = "", ylab = "Density",
 	histbreaks = 50, histcol = UNcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn1, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(k))),
+   mtext(text = expression((bolditalic(c))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
    
 
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylab floats each time
   postPlot(tmpIa[, 4], #denscol = clPurp[1],
 	main = "",
-	xlab = expression("I"[ A ]), ylab = "",
+	xlab = expression("Evolvability (I" [ A ] ~ ")"),
+	ylab = "Density",
 	histbreaks = 50, histcol = UUcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn2, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(l))),
+   mtext(text = expression((bolditalic(d))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-mtext(text = "Evolvability", # expression(paste("Evolvability (I"[ A ],")"))
-     outer = TRUE, side = 3, line = 1, adj = 0.9, cex = 1.2)
+mtext(text = "Spicule length",
+     outer = TRUE, side = 3, line = 1.2, adj = 0.2, cex = 1.2)
 
-
-mtext(text = "Parent Upwelling",
-     outer = TRUE, side = 2, line = 5, adj = 0.2, cex = 1.5)
-mtext(text = "Parent Non-Upwelling",
-     outer = TRUE, side = 2, line = 5, adj = 0.85, cex = 1.5)
-  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
-     outer = TRUE, side = 2, line = 2.5, adj = 0.93, cex = 1.2)
-  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
-     outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
-
-dev.off()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-######################################
-# body Length
-## Fgure 4
-######################################
-tmpModN <- bodMod_parN
-tmpModU <- bodMod_parU
-tmph2 <- bodh2
-tmpIa <- bodIa
-
-tiff("../Fig4.tiff", width = 9, height = 10, units = "in",
-  res = 500, compression = "jpeg")          
-par(mfcol = c(4, 3), oma = c(1, 7, 4, 0),
-  mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
-
-lettLine <- 1.5  #<-- vertical line placement of panel letter
-lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
-#################
-# VAs
-#################
-genXlim1in <- c(0, 1.4)
-genXlim2in <- c(0, 1.0)
-genYlim1in <- c(0, 7.5)
-genYlim2in <- c(0, 20)
- ################### 
- # Parent N  #####
-  NVA1 <- postPlot(tmpModN$VCV[, 1], plotHist = TRUE,
-	xlim = genXlim1in, ylim = genYlim1in,
-	main = "",
-	xlab = "", ylab = "Density",
-	histcol = NNcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- NVA1$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(a))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
-  NVA2 <- postPlot(tmpModN$VCV[, 4], plotHist = TRUE,
-	xlim = genXlim1in, ylim = genYlim1in,
-	main = "",
-	xlab = "", ylab = "Density",
-	histcol = NUcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- NVA2$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(b))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
- ################### 
- # Parent U  #####
-par(mgp = c(2.5, 1, 0))
-  UVA1 <- postPlot(tmpModU$VCV[, 1], plotHist = TRUE,
-	xlim = genXlim2in, ylim = genYlim2in,
-	main = "",
-	xlab = "", ylab = "Density",
-	histcol = UNcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- UVA1$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(c))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-
-par(mgp = c(2.5, 1, 0))
-  UVA2 <- postPlot(tmpModU$VCV[, 4], plotHist = TRUE,
-	xlim = genXlim2in, ylim = genYlim2in,
-	main = "",
-	xlab = expression(V[ A ]), ylab = "Density",
-	histcol = UUcl)
-	# estimate prior densities at posterior histogram midpoints
-	poh <- UVA2$postDensity$histogram
-      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
-      	  2*poh$mids[1]/10)
-       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
-        # scale so total of: density * width of histogram bar, summed over all bars = 1
-         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
-         sprd <- prd / prda
-        lines(sprd ~ prdx, lwd = 4, col = "grey50")
-     mtext(text = expression((bolditalic(d))),
-       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-mtext(text = "Additive genetic variance", #    expression(V[ A ])
-     outer = TRUE, side = 3, line = 1, adj = 0.05, cex = 1.2)
-
-#################
-# h2s
-#################
-ylimin1 <- c(0, 12)
-ylimin2 <- c(0, 25)
- ################### 
- # Parent N  #####
-  postPlot(tmph2[, 1], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = NNcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin1)
-   mtext(text = expression((bolditalic(e))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
-
-  postPlot(tmph2[, 2], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = NUcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin1)
-   mtext(text = expression((bolditalic(f))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
- ################### 
- # Parent U  #####
-  postPlot(tmph2[, 3], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = UNcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin2)
-   mtext(text = expression((bolditalic(g))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
-   
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
-  postPlot(tmph2[, 4], #denscol = clPurp[1],
-	main = "",
-	xlab = expression("h"^2), ylab = "",
-	histbreaks = 50, histcol = UUcl,
-	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = c(0, 1), ylim = ylimin2)
-   mtext(text = expression((bolditalic(h))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-  # Density approximation makes prior go past h2=1: COVER THIS UP
-  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
-mtext(text = "heritability", # expression(paste("heritability"[   ]))
-     outer = TRUE, side = 3, line = 1, adj = 0.5, cex = 1.2)
 
 #################
 # evolvabilities (Ia)
 #################
+# Body Length
+tmpIa <- bodIa
+
 xlimIn1 <- c(0, 0.0065)
 xlimIn2 <- c(0, 0.0065)
 ylimIn1 <- c(0, 1200)
@@ -876,7 +556,7 @@ ylimIn2 <- c(0, 3800)
 	histbreaks = 50, histcol = NNcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn1, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(i))),
+   mtext(text = expression((bolditalic(e))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
 
   postPlot(tmpIa[, 2], #denscol = clPurp[1],
@@ -885,7 +565,7 @@ ylimIn2 <- c(0, 3800)
 	histbreaks = 50, histcol = NUcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn2, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(j))),
+   mtext(text = expression((bolditalic(f))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
  ################### 
  # Parent U  #####
@@ -895,31 +575,32 @@ ylimIn2 <- c(0, 3800)
 	histbreaks = 50, histcol = UNcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn1, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(k))),
+   mtext(text = expression((bolditalic(g))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
    
 
 par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
   postPlot(tmpIa[, 4], #denscol = clPurp[1],
 	main = "",
-	xlab = expression("I"[ A ]), ylab = "",
+	xlab = expression("Evolvability (I" [ A ] ~ ")"),
+	ylab = "",
 	histbreaks = 50, histcol = UUcl,
 	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
 	xlim = xlimIn2, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(l))),
+   mtext(text = expression((bolditalic(h))),
      side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-mtext(text = "Evolvability", # expression(paste("Evolvability (I"[ A ],")"))
-     outer = TRUE, side = 3, line = 1, adj = 0.9, cex = 1.2)
+mtext(text = "Body length",
+     outer = TRUE, side = 3, line = 1.2, adj = 0.8, cex = 1.2)
 
 
 mtext(text = "Parent Upwelling",
-     outer = TRUE, side = 2, line = 5, adj = 0.2, cex = 1.5)
+     outer = TRUE, side = 2, line = 4, adj = 0.2, cex = 1.5)
 mtext(text = "Parent Non-Upwelling",
-     outer = TRUE, side = 2, line = 5, adj = 0.85, cex = 1.5)
+     outer = TRUE, side = 2, line = 4, adj = 0.85, cex = 1.5)
   mtext(text = "Larval Upwelling        Larval Non-Upwelling",
-     outer = TRUE, side = 2, line = 2.5, adj = 0.93, cex = 1.2)
+     outer = TRUE, side = 2, line = 2.0, adj = 0.93, cex = 1.2)
   mtext(text = "Larval Upwelling        Larval Non-Upwelling",
-     outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
+     outer = TRUE, side = 2, line = 2.0, adj = 0.1, cex = 1.2)
 
 dev.off()
 
@@ -946,7 +627,7 @@ dev.off()
 
 ######################################
 # cross-environment correlations
-## Fgure 5
+## Fgure 3
 ######################################
 
 # Extract random effects
@@ -1055,7 +736,7 @@ class(spiModN_FamTrtMeanPost) <- class(spiModU_FamTrtMeanPost) <-
 #### plot each family and development environment probability distribution
 
 #### Spicule Length: Parent N - Larvae N
-tiff("../FigESM5_S7.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S10.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
@@ -1066,7 +747,7 @@ par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
      outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
 dev.off()
 #### Spicule Length: Parent N - Larvae U
-tiff("../FigESM5_S8.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S11.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
@@ -1078,7 +759,7 @@ par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
 dev.off()
 
 #### Spicule Length: Parent U - Larvae N
-tiff("../FigESM5_S9.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S12.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
@@ -1089,7 +770,7 @@ par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
      outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
 dev.off()
 #### Spicule Length: Parent U - Larvae U
-tiff("../FigESM5_S10.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S13.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(spiModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
@@ -1103,7 +784,7 @@ dev.off()
 
 
 #### Body Length: Parent N - Larvae N
-tiff("../FigESM5_S11.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S14.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModN_FamTrtMeanPost[, 1:20], MARGIN = 2,
@@ -1114,7 +795,7 @@ par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
      outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
 dev.off()
 #### Body Length: Parent N - Larvae U
-tiff("../FigESM5_S12.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S15.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModN_FamTrtMeanPost[, 21:40], MARGIN = 2,
@@ -1126,7 +807,7 @@ par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
 dev.off()
 
 #### Body Length: Parent U - Larvae N
-tiff("../FigESM5_S13.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S16.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModU_FamTrtMeanPost[, 1:20], MARGIN = 2,
@@ -1137,7 +818,7 @@ par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
      outer = TRUE, side = 1, line = -1.3, adj = 0.5, cex = 2.2)
 dev.off()
 #### Body Length: Parent U - Larvae U
-tiff("../FigESM5_S14.tiff", width = 12, height = 10, units = "in",
+tiff("../FigESM5_S17.tiff", width = 12, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfrow = c(4, 5), mar = c(6, 6, 0, 0))
   ignoreOutput <- apply(bodModU_FamTrtMeanPost[, 21:40], MARGIN = 2,
@@ -1210,7 +891,7 @@ bodModU_FamMeanBV_devUmode_rank <- -1*rank(bodModU_FamMeanBV_devUmode)
 
 
 
-tiff("../Fig5.tiff", width = 12, height = 7, units = "in",
+tiff("../Fig3.tiff", width = 12, height = 7, units = "in",
   res = 500, compression = "jpeg")          
 mar1 <- c(5.5, 6, 5.5, 2.3)
 mar2 <- c(5.5, 3, 5.5, 5.3)
@@ -1434,7 +1115,7 @@ dev.off()
 ############################################
 
 
-tiff("../FigESM3_S1.tiff", width = 9, height = 4, units = "in",
+tiff("../FigESM3_S2.tiff", width = 9, height = 4, units = "in",
   res = 500, compression = "jpeg")          
 
 EggPlot <- ggplot(eggs, aes(treat_adult, 1000*Average, color = treat_adult)) +
@@ -1496,7 +1177,7 @@ dev.off()
 ############################################
 # Model treatment mean reaction norms
 
-tiff("../FigESM3_S2.tiff", width = 4, height = 5, units = "in",
+tiff("../FigESM3_S3.tiff", width = 4, height = 5, units = "in",
   res = 500, compression = "jpeg")          
 
 par(mar = c(5, 5, 2, 0.5), cex.lab = 1.5, cex.axis = 1.25)
@@ -1552,11 +1233,177 @@ dev.off()
 ######################
 tmpModN <- spiMod_parN
 tmpModU <- spiMod_parU
+tmph2 <- spih2
 
 
 
 
-tiff("../FigESM4_S3.tiff", width = 12, height = 5, units = "in",
+
+tiff("../FigESM4_S4.tiff", width = 7, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfcol = c(4, 2), oma = c(1, 7, 4, 0),
+  mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
+
+lettLine <- 1.5  #<-- vertical line placement of panel letter
+lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
+#################
+# VAs
+#################
+genXlim1in <- c(0, 2.0)
+genXlim2in <- c(0, 3.5)
+genYlim1in <- c(0, 5)
+genYlim2in <- c(0, 1.2)
+ ################### 
+ # Parent N  #####
+  NVA1 <- postPlot(tmpModN$VCV[, 1], plotHist = TRUE,
+	xlim = genXlim1in, ylim = genYlim1in,
+	main = "",
+	xlab = "", ylab = "Density",
+	histcol = NNcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- NVA1$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(a))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
+  NVA2 <- postPlot(tmpModN$VCV[, 4], plotHist = TRUE,
+	xlim = genXlim2in, ylim = genYlim2in,
+	main = "",
+	xlab = "", ylab = "Density",
+	histcol = NUcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- NVA2$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(b))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+ ################### 
+ # Parent U  #####
+par(mgp = c(2.5, 1, 0))
+  UVA1 <- postPlot(tmpModU$VCV[, 1], plotHist = TRUE,
+	xlim = genXlim1in, ylim = genYlim1in,
+	main = "",
+	xlab = "", ylab = "Density",
+	histcol = UNcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- UVA1$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(c))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+
+par(mgp = c(2.5, 1, 0))
+  UVA2 <- postPlot(tmpModU$VCV[, 4], plotHist = TRUE,
+	xlim = genXlim2in, ylim = genYlim2in,
+	main = "",
+	xlab = expression(V[ A ]), ylab = "Density",
+	histcol = UUcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- UVA2$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(d))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+mtext(text = "Additive genetic variance", #    expression(V[ A ])
+     outer = TRUE, side = 3, line = 1, adj = 0.15, cex = 1.2)
+
+#################
+# h2s
+#################
+ylimin1 <- ylimin2 <- c(0, 11)
+ ################### 
+ # Parent N  #####
+  postPlot(tmph2[, 1], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = NNcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin1)
+   mtext(text = expression((bolditalic(e))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+
+  postPlot(tmph2[, 2], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = NUcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin1)
+   mtext(text = expression((bolditalic(f))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+ ################### 
+ # Parent U  #####
+  postPlot(tmph2[, 3], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = UNcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin2)
+   mtext(text = expression((bolditalic(g))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+   
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
+  postPlot(tmph2[, 4], #denscol = clPurp[1],
+	main = "",
+	xlab = expression("h"^2), ylab = "",
+	histbreaks = 50, histcol = UUcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin2)
+   mtext(text = expression((bolditalic(h))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+mtext(text = "heritability", # expression(paste("heritability"[   ]))
+     outer = TRUE, side = 3, line = 1, adj = 0.8, cex = 1.2)
+
+
+
+mtext(text = "Parent Upwelling",
+     outer = TRUE, side = 2, line = 5, adj = 0.2, cex = 1.5)
+mtext(text = "Parent Non-Upwelling",
+     outer = TRUE, side = 2, line = 5, adj = 0.85, cex = 1.5)
+  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
+     outer = TRUE, side = 2, line = 2.5, adj = 0.93, cex = 1.2)
+  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
+     outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
+
+dev.off()
+
+
+
+
+
+
+
+
+
+tiff("../FigESM4_S5.tiff", width = 12, height = 5, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(2, 4), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
@@ -1747,7 +1594,7 @@ dev.off()
 ######################
 # Residual Variances
 ######################
-tiff("../FigESM4_S4.tiff", width = 5, height = 10, units = "in",
+tiff("../FigESM4_S6.tiff", width = 5, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(4, 1), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
@@ -1824,11 +1671,173 @@ dev.off()
 ######################
 tmpModN <- bodMod_parN
 tmpModU <- bodMod_parU
+tmph2 <- bodh2
+
+tiff("../FigESM4_S7.tiff", width = 7, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfcol = c(4, 2), oma = c(1, 7, 4, 0),
+  mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
+
+lettLine <- 1.5  #<-- vertical line placement of panel letter
+lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
+#################
+# VAs
+#################
+genXlim1in <- c(0, 1.4)
+genXlim2in <- c(0, 1.0)
+genYlim1in <- c(0, 7.5)
+genYlim2in <- c(0, 20)
+ ################### 
+ # Parent N  #####
+  NVA1 <- postPlot(tmpModN$VCV[, 1], plotHist = TRUE,
+	xlim = genXlim1in, ylim = genYlim1in,
+	main = "",
+	xlab = "", ylab = "Density",
+	histcol = NNcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- NVA1$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(a))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
+  NVA2 <- postPlot(tmpModN$VCV[, 4], plotHist = TRUE,
+	xlim = genXlim1in, ylim = genYlim1in,
+	main = "",
+	xlab = "", ylab = "Density",
+	histcol = NUcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- NVA2$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(b))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+ ################### 
+ # Parent U  #####
+par(mgp = c(2.5, 1, 0))
+  UVA1 <- postPlot(tmpModU$VCV[, 1], plotHist = TRUE,
+	xlim = genXlim2in, ylim = genYlim2in,
+	main = "",
+	xlab = "", ylab = "Density",
+	histcol = UNcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- UVA1$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(c))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+
+par(mgp = c(2.5, 1, 0))
+  UVA2 <- postPlot(tmpModU$VCV[, 4], plotHist = TRUE,
+	xlim = genXlim2in, ylim = genYlim2in,
+	main = "",
+	xlab = expression(V[ A ]), ylab = "Density",
+	histcol = UUcl)
+	# estimate prior densities at posterior histogram midpoints
+	poh <- UVA2$postDensity$histogram
+      	prdx <- seq(poh$mids[1]/10, max(poh$breaks)-(poh$mids[1]/10),
+      	  2*poh$mids[1]/10)
+       	prd <- df(prdx / 1000, df1 = 1, df2 = 1, ncp = (0^2)/1000)
+        # scale so total of: density * width of histogram bar, summed over all bars = 1
+         prda <- sum(2*poh$mids[1]/10 * prd)# prd area
+         sprd <- prd / prda
+        lines(sprd ~ prdx, lwd = 4, col = "grey50")
+     mtext(text = expression((bolditalic(d))),
+       side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+mtext(text = "Additive genetic variance", #    expression(V[ A ])
+     outer = TRUE, side = 3, line = 1, adj = 0.15, cex = 1.2)
+
+#################
+# h2s
+#################
+ylimin1 <- c(0, 12)
+ylimin2 <- c(0, 25)
+ ################### 
+ # Parent N  #####
+  postPlot(tmph2[, 1], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = NNcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin1)
+   mtext(text = expression((bolditalic(e))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+
+  postPlot(tmph2[, 2], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = NUcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin1)
+   mtext(text = expression((bolditalic(f))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+ ################### 
+ # Parent U  #####
+  postPlot(tmph2[, 3], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = UNcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin2)
+   mtext(text = expression((bolditalic(g))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+   
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
+  postPlot(tmph2[, 4], #denscol = clPurp[1],
+	main = "",
+	xlab = expression("h"^2), ylab = "",
+	histbreaks = 50, histcol = UUcl,
+	prior = h2Prior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = c(0, 1), ylim = ylimin2)
+   mtext(text = expression((bolditalic(h))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+  # Density approximation makes prior go past h2=1: COVER THIS UP
+  lines(x = c(1.0, 1.2), y = c(0, 0), lwd = 8, col = "white", lend = 2)
+mtext(text = "heritability", # expression(paste("heritability"[   ]))
+     outer = TRUE, side = 3, line = 1, adj = 0.8, cex = 1.2)
+
+
+
+mtext(text = "Parent Upwelling",
+     outer = TRUE, side = 2, line = 5, adj = 0.2, cex = 1.5)
+mtext(text = "Parent Non-Upwelling",
+     outer = TRUE, side = 2, line = 5, adj = 0.85, cex = 1.5)
+  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
+     outer = TRUE, side = 2, line = 2.5, adj = 0.93, cex = 1.2)
+  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
+     outer = TRUE, side = 2, line = 2.5, adj = 0.1, cex = 1.2)
+
+dev.off()
 
 
 
 
-tiff("../FigESM4_S5.tiff", width = 12, height = 5, units = "in",
+
+
+
+
+tiff("../FigESM4_S8.tiff", width = 12, height = 5, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(2, 4), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
@@ -2021,7 +2030,7 @@ dev.off()
 ######################
 # Residual Variances
 ######################
-tiff("../FigESM4_S6.tiff", width = 5, height = 10, units = "in",
+tiff("../FigESM4_S9.tiff", width = 5, height = 10, units = "in",
   res = 500, compression = "jpeg")          
 par(mfcol = c(4, 1), oma = c(1, 7, 4, 0),
   mar = c(4.5,4.6,3,1), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
