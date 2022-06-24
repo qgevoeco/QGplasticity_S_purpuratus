@@ -107,7 +107,7 @@ clPurp <- clP16[c(1:6, 15:16)]
 ################################################################################
 
 ##########################################
-#####   Eggs Diameter               ######
+#####   Eggs 	                    ######
 ##########################################
 # Egg diameter
 glm_egg <- lmer(Average ~ treat_adult + (1 | blockFac) + (1 | blockFac:tube),
@@ -128,7 +128,7 @@ PspiSumm <- summarySE(rbind(cbind(parN, treat_adult = "N"),
   groupvars = c("treat_adult", "treat_dev", "Dam"),
   na.rm = TRUE)
 
-PbodSumm=summarySE(rbind(cbind(parN, treat_adult = "N"),
+PbodSumm <- summarySE(rbind(cbind(parN, treat_adult = "N"),
                             cbind(parU, treat_adult = "U")),
   measurevar = "Length.bod",
   groupvars = c("treat_adult", "treat_dev", "Dam"),
@@ -161,7 +161,7 @@ summary(eggbod_lm)
 ##########################################
 
 # Tables summarizing posterior distributions of parental treatment fixed effects
-##XXX Note, models setup WITHOUT an intercept
+##XXX Note, models setup WITHOUT a global intercept
 ## `postTable()` lists posterior mode, mean, and HPD interval
 postTable(spiMod_parN$Sol[, 1:2])
 postTable(spiMod_parU$Sol[, 1:2])
