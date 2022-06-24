@@ -167,8 +167,10 @@ postTable(spiMod_parN$Sol[, 1:2])
 postTable(spiMod_parU$Sol[, 1:2])
 
 ## Compare larval spicule lengths (parent N vs. U) for upwelling development evironment
-### what is probability that UU-NU difference is > 0.6 (6 microns)
-mean((spiMod_parU$Sol[, "treat_devU"] - spiMod_parN$Sol[, "treat_devU"]) > 0.6)
+### what is probability that UU-NU difference is > 0.62 (6.2 microns)
+mean((spiMod_parU$Sol[, "treat_devU"] - spiMod_parN$Sol[, "treat_devU"]) > 0.62)
+### 6.2 microns is about 7 percent of NU spicule length
+mean(100* 0.62 / spiMod_parN$Sol[, "treat_devU"])
 
 postTable(bodMod_parN$Sol[, 1:2])
 postTable(bodMod_parU$Sol[, 1:2])
