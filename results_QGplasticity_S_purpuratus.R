@@ -163,8 +163,9 @@ summary(eggbod_lm)
 # Tables summarizing posterior distributions of parental treatment fixed effects
 ##XXX Note, models setup WITHOUT a global intercept
 ## `postTable()` lists posterior mode, mean, and HPD interval
-postTable(spiMod_parN$Sol[, 1:2])
-postTable(spiMod_parU$Sol[, 1:2])
+## multiply by 10 to scale to microns
+postTable(10 * spiMod_parN$Sol[, 1:2])
+postTable(10 * spiMod_parU$Sol[, 1:2])
 
 ## Compare larval spicule lengths (parent N vs. U) for upwelling development evironment
 ### what is probability that UU-NU difference is > 0.62 (6.2 microns)
@@ -172,8 +173,11 @@ mean((spiMod_parU$Sol[, "treat_devU"] - spiMod_parN$Sol[, "treat_devU"]) > 0.62)
 ### 6.2 microns is about 7 percent of NU spicule length
 mean(100* 0.62 / spiMod_parN$Sol[, "treat_devU"])
 
-postTable(bodMod_parN$Sol[, 1:2])
-postTable(bodMod_parU$Sol[, 1:2])
+
+
+## multiply by 10 to scale to microns
+postTable(10 * bodMod_parN$Sol[, 1:2])
+postTable(10 * bodMod_parU$Sol[, 1:2])
 
 
 
