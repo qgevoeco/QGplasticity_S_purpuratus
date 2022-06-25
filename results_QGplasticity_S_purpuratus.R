@@ -251,9 +251,9 @@ spiUUminUN_VAdiff <- spiMod_parU$VCV[, "treat_devU:treat_devU.animal"] -
   spiMod_parU$VCV[, "treat_devN:treat_devN.animal"]
 
   postTable(spiNUminNN_VAdiff)
-    mean(spiNUminNN_VAdiff > 0.1)
+    mean(spiNUminNN_VAdiff > 0)
   postTable(spiUUminUN_VAdiff)
-    mean(spiUUminUN_VAdiff > 0.1)
+    mean(spiUUminUN_VAdiff > 0)
 
 
 spiNUminNN_Iadiff <- spiIa[, "spiParNdevU_Ia"] - spiIa[, "spiParNdevN_Ia"]
