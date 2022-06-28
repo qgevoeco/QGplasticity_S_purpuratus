@@ -482,153 +482,6 @@ dev.off()
 
 
 
-######################################
-
-# Ia (Evolvability ) Spicule and Body Length
-## Fgure 3
-
-######################################
-
-
-tiff("../Fig3.tiff", width = 7, height = 10, units = "in",
-  res = 500, compression = "jpeg")          
-par(mfcol = c(4, 2), oma = c(1, 6, 4, 0),
-  mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
-
-lettLine <- 1.5  #<-- vertical line placement of panel letter
-lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
-
-#################
-# evolvabilities (Ia)
-#################
-# Spicule Length
-tmpIa <- spiIa
-
-xlimIn1 <- c(0, 0.015)
-xlimIn2 <- c(0, 0.05)
-ylimIn1 <- c(0, 650)
-ylimIn2 <- c(0, 150)
- ################### 
- # Parent N  #####
-  postPlot(tmpIa[, 1], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "Density",
-	histbreaks = 50, histcol = NNcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn1, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(a))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
-  postPlot(tmpIa[, 2], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "Density",
-	histbreaks = 50, histcol = NUcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn2, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(b))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
- ################### 
- # Parent U  #####
-par(mgp = c(2.5, 1, 0))
-  postPlot(tmpIa[, 3], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "Density",
-	histbreaks = 50, histcol = UNcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn1, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(c))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-   
-
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylab floats each time
-  postPlot(tmpIa[, 4], #denscol = clPurp[1],
-	main = "",
-	xlab = expression("Evolvability (I" [ A ] ~ ")"),
-	ylab = "Density",
-	histbreaks = 50, histcol = UUcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn2, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(d))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-mtext(text = "Spicule length",
-     outer = TRUE, side = 3, line = 1.2, adj = 0.2, cex = 1.2)
-
-
-#################
-# evolvabilities (Ia)
-#################
-# Body Length
-tmpIa <- bodIa
-
-xlimIn1 <- c(0, 0.0065)
-xlimIn2 <- c(0, 0.0065)
-ylimIn1 <- c(0, 1200)
-ylimIn2 <- c(0, 3800)
- ################### 
- # Parent N  #####
-  postPlot(tmpIa[, 1], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = NNcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn1, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(e))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-
-  postPlot(tmpIa[, 2], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = NUcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn2, ylim = ylimIn1)
-   mtext(text = expression((bolditalic(f))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
- ################### 
- # Parent U  #####
-  postPlot(tmpIa[, 3], #denscol = clPurp[1],
-	main = "",
-	xlab = "", ylab = "",
-	histbreaks = 50, histcol = UNcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn1, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(g))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-   
-
-par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
-  postPlot(tmpIa[, 4], #denscol = clPurp[1],
-	main = "",
-	xlab = expression("Evolvability (I" [ A ] ~ ")"),
-	ylab = "",
-	histbreaks = 50, histcol = UUcl,
-	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
-	xlim = xlimIn2, ylim = ylimIn2)
-   mtext(text = expression((bolditalic(h))),
-     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
-mtext(text = "Body length",
-     outer = TRUE, side = 3, line = 1.2, adj = 0.8, cex = 1.2)
-
-
-mtext(text = "Parent Upwelling",
-     outer = TRUE, side = 2, line = 4, adj = 0.2, cex = 1.5)
-mtext(text = "Parent Non-Upwelling",
-     outer = TRUE, side = 2, line = 4, adj = 0.85, cex = 1.5)
-  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
-     outer = TRUE, side = 2, line = 2.0, adj = 0.93, cex = 1.2)
-  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
-     outer = TRUE, side = 2, line = 2.0, adj = 0.1, cex = 1.2)
-
-dev.off()
-
-
-
-
-
-
-
-
-
 
 
 
@@ -644,7 +497,7 @@ dev.off()
 
 ######################################
 # cross-environment correlations
-## Figure 4
+## Figure 3
 ######################################
 
 # Extract random effects
@@ -908,7 +761,7 @@ bodModU_FamMeanBV_devUmode_rank <- -1*rank(bodModU_FamMeanBV_devUmode)
 
 
 
-tiff("../Fig4.tiff", width = 12, height = 7, units = "in",
+tiff("../Fig3.tiff", width = 12, height = 7, units = "in",
   res = 500, compression = "jpeg")          
 mar1 <- c(5.5, 6, 5.5, 2.3)
 mar2 <- c(5.5, 3, 5.5, 5.3)
@@ -1092,6 +945,157 @@ mtext(text = "Parent Upwelling",
      outer = TRUE, side = 3, line = -1.9, adj = 0.915, cex = 1.25)
 
 dev.off()
+
+
+
+
+
+
+
+
+
+
+
+######################################
+
+# Ia (Evolvability ) Spicule and Body Length
+## Fgure 4
+
+######################################
+
+
+tiff("../Fig4.tiff", width = 7, height = 10, units = "in",
+  res = 500, compression = "jpeg")          
+par(mfcol = c(4, 2), oma = c(1, 6, 4, 0),
+  mar = c(4.5,4.6,3,1.5), mgp = c(2.5, 1, 0), cex.lab = 1.55, cex.axis = 1.25)    
+
+lettLine <- 1.5  #<-- vertical line placement of panel letter
+lettAdj <- -0.3 #<-- horizonal adjustment of panel letter
+
+#################
+# evolvabilities (Ia)
+#################
+# Spicule Length
+tmpIa <- spiIa
+
+xlimIn1 <- c(0, 0.015)
+xlimIn2 <- c(0, 0.05)
+ylimIn1 <- c(0, 650)
+ylimIn2 <- c(0, 150)
+ ################### 
+ # Parent N  #####
+  postPlot(tmpIa[, 1], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "Density",
+	histbreaks = 50, histcol = NNcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn1, ylim = ylimIn1)
+   mtext(text = expression((bolditalic(a))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylabel increases 1 line each plot??
+  postPlot(tmpIa[, 2], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "Density",
+	histbreaks = 50, histcol = NUcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn2, ylim = ylimIn2)
+   mtext(text = expression((bolditalic(b))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+ ################### 
+ # Parent U  #####
+par(mgp = c(2.5, 1, 0))
+  postPlot(tmpIa[, 3], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "Density",
+	histbreaks = 50, histcol = UNcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn1, ylim = ylimIn1)
+   mtext(text = expression((bolditalic(c))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+   
+
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise ylab floats each time
+  postPlot(tmpIa[, 4], #denscol = clPurp[1],
+	main = "",
+	xlab = expression("Evolvability (I" [ A ] ~ ")"),
+	ylab = "Density",
+	histbreaks = 50, histcol = UUcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn2, ylim = ylimIn2)
+   mtext(text = expression((bolditalic(d))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+mtext(text = "Spicule length",
+     outer = TRUE, side = 3, line = 1.2, adj = 0.2, cex = 1.2)
+
+
+#################
+# evolvabilities (Ia)
+#################
+# Body Length
+tmpIa <- bodIa
+
+xlimIn1 <- c(0, 0.0065)
+xlimIn2 <- c(0, 0.0065)
+ylimIn1 <- c(0, 1200)
+ylimIn2 <- c(0, 3800)
+ ################### 
+ # Parent N  #####
+  postPlot(tmpIa[, 1], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = NNcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn1, ylim = ylimIn1)
+   mtext(text = expression((bolditalic(e))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+
+  postPlot(tmpIa[, 2], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = NUcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn2, ylim = ylimIn1)
+   mtext(text = expression((bolditalic(f))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+ ################### 
+ # Parent U  #####
+  postPlot(tmpIa[, 3], #denscol = clPurp[1],
+	main = "",
+	xlab = "", ylab = "",
+	histbreaks = 50, histcol = UNcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn1, ylim = ylimIn2)
+   mtext(text = expression((bolditalic(g))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+   
+
+par(mgp = c(2.5, 1, 0))  #<--XXX Otherwise xlab floats each time
+  postPlot(tmpIa[, 4], #denscol = clPurp[1],
+	main = "",
+	xlab = expression("Evolvability (I" [ A ] ~ ")"),
+	ylab = "",
+	histbreaks = 50, histcol = UUcl,
+	prior = IaPrior, prange = "prior", priorcol = "grey50", priorlwd = 4,
+	xlim = xlimIn2, ylim = ylimIn2)
+   mtext(text = expression((bolditalic(h))),
+     side = 3, line = lettLine, adj = lettAdj, cex = 1.3)
+mtext(text = "Body length",
+     outer = TRUE, side = 3, line = 1.2, adj = 0.8, cex = 1.2)
+
+
+mtext(text = "Parent Upwelling",
+     outer = TRUE, side = 2, line = 4, adj = 0.2, cex = 1.5)
+mtext(text = "Parent Non-Upwelling",
+     outer = TRUE, side = 2, line = 4, adj = 0.85, cex = 1.5)
+  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
+     outer = TRUE, side = 2, line = 2.0, adj = 0.93, cex = 1.2)
+  mtext(text = "Larval Upwelling        Larval Non-Upwelling",
+     outer = TRUE, side = 2, line = 2.0, adj = 0.1, cex = 1.2)
+
+dev.off()
+
+
 
 
 
