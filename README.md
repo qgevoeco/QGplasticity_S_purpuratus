@@ -1,12 +1,13 @@
 # QGplasticity_S_purpuratus
-Version controlled and editable source for the data and code supporting the paper by Strader et al. on _Strongylocentrotus purpuratus_ quantitative genetics of plasticity.
+Version controlled and editable source for the data and code supporting the paper by Strader et al. on _Strongylocentrotus purpuratus_ quantitative genetics of plasticity [https://royalsocietypublishing.org/doi/full/10.1098/rspb.2022.1249](https://royalsocietypublishing.org/doi/full/10.1098/rspb.2022.1249).
 
 ## Data
 ### Data citation
-If you use the data, please cite the data package TBD<!-- archived in the Dryad Data Repository: https://doi.org/ -->
+If you use the data or substantial portions of the code, please cite the paper:
+>Strader ME, Wolak ME, Simon OM, Hofmann GE. 2022. Genetic variation underlies plastic responses to gobal drivers in purple sea urchin, _Strongylocentrotus purpuratus_. _Proc. R. Soc. B_ __289__: 20221249. https://doi.org/10.1098/rspb.2022.1249
 
 ### Data metadata
-Description of variables and abbreviations used in the data for the manuscript "Genetic variation underlies responses to global change drivers in the purple sea urchin, _Strongylocentrotus purpuratus_." The data and code provided here are sufficient to replicate the analyses presented in the above work.
+Description of variables and abbreviations used in the data for the paper "Genetic variation underlies plastic responses to global change drivers in the purple sea urchin, _Strongylocentrotus purpuratus_", published in _Proceedings of the Royal Society B_ [DOI](https://doi.org/10.1098/rspb.2022.1249). The data and code provided here are sufficient to replicate the analyses presented in the above work.
 
 The main files contain information related to either one of two parental environment treatments: non-upwelling (abbreviated `parN`) or upwelling (abbreviated `parU`) conditions. Filenames include either `parN` or `parU` to indicate what is contained within.
 
